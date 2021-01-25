@@ -8,5 +8,6 @@ export default function createDefaultMarketFormValues(): MarketFormValues {
         isCategoricalMarket: false,
         outcomes: [''],
         description: '',
+        extraInfo: '',
     }
 }

@@ -11,6 +11,7 @@ export interface MarketFormValues {
     resolutionDate: Date;
     description: string;
     outcomes: string[];
+    extraInfo: string;
 }
 
 export async function createMarket(values: MarketFormValues): Promise<FetchResult<any, string>> {
@@ -18,7 +19,12 @@ export async function createMarket(values: MarketFormValues): Promise<FetchResul
         const protocol = await createProtocolContract();
         const outcomes = values.outcomes.length > 2 ? values.outcomes : ['YES', 'NO'];
 
-        protocol.createMarket(values.description, outcomes, values.resolutionDate);
+        protocol.createMarket(
+            values.description,
+            outcomes,
+            values.resolutionDate,
+            values.extraInfo
+        );
 
         return {
             type: FetchResultType.Success,

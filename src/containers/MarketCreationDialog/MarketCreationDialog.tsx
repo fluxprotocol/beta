@@ -78,6 +78,13 @@ export default function MarketCreationDialog({
         });
     }
 
+    function handleExtraInfoChange(extraInfo: string) {
+        setFormValues({
+            ...formValues,
+            extraInfo,
+        });
+    }
+
     return (
         <Dialog open={open} title="" onRequestClose={onRequestClose} onSubmitClick={handleFormSubmit}>
             <form className={s.filters} ref={formRef}>
@@ -103,6 +110,12 @@ export default function MarketCreationDialog({
                         {trans('marketCreation.label.description')}
                     </label>
                     <TextInput required multiline onChange={handleDescriptionChange} value={formValues.description} />
+                </div>
+                <div className={s.inputsWrapper}>
+                    <label className={s.label}>
+                        {trans('marketCreation.label.extraInfo')}
+                    </label>
+                    <TextInput required multiline onChange={handleExtraInfoChange} value={formValues.extraInfo} />
                 </div>
                 <div className={s.inputsWrapper}>
                     <label className={s.label}>

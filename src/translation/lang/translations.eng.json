@@ -52,6 +52,7 @@
     "market.category.stocks": "Stocks",
     "market.category.viral": "Viral",
 
+    "marketCreation.label.extraInfo": "Provide info to resolute the market",
     "marketCreation.label.categorySelect": "Select one or more category",
     "marketCreation.label.description": "Provide description of the market",
     "marketCreation.label.marketType": "Choose a market type",
