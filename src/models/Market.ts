@@ -23,6 +23,7 @@ export interface GraphMarketResponse {
     finalized: boolean;
     id: string;
     volume: string;
+    categories: string[];
     pool: {
         public: boolean;
         owner: string;
@@ -54,7 +55,7 @@ export function transformToMarketViewModel(graphResponse: GraphMarketResponse): 
 
     return {
         id: graphResponse.id,
-        category: [],
+        category: graphResponse.categories,
         description: graphResponse.description,
         extraInfo: graphResponse.extra_info,
         finalized: graphResponse.finalized,

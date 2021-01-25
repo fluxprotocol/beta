@@ -22,6 +22,7 @@ export async function createMarket(values: MarketFormValues): Promise<FetchResul
         protocol.createMarket(
             values.description,
             outcomes,
+            values.categories,
             values.resolutionDate,
             values.extraInfo
         );
@@ -66,6 +67,7 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
                         finalized
                         id
                         volume
+                        categories
                     }
                 }
             `,
@@ -111,6 +113,7 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
                             finalized
                             id
                             volume
+                            categories
                         }
                         total
                     }

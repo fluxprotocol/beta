@@ -16,6 +16,7 @@ class ProtocolContract {
     async createMarket(
         description: string,
         outcomes: string[],
+        categories: string[],
         endDate: Date,
         extraInfo: string = '',
     ): Promise<void> {
@@ -27,6 +28,7 @@ class ProtocolContract {
             outcome_tags: outcomes,
             end_time: endDate.getTime().toString(),
             collateral_token_id: FUNGIBLE_TOKEN_ACCOUNT_ID,
+            categories,
             swap_fee: "100000000000000",
         }, MAX_GAS, STORAGE_DEFAULT);
     }
