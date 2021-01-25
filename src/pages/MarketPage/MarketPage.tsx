@@ -34,7 +34,7 @@ export default function MarketPage() {
     useEffect(() => {
         dispatch(fetchMarketById(marketId));
         dispatch(fetchPricesHistoryByMarketId(marketId));
-        dispatch(loadTokens());
+        dispatch(loadTokens(marketId));
     }, [dispatch, marketId]);
 
     return (
@@ -58,22 +58,22 @@ export default function MarketPage() {
                         items={[{
                             element: <TokenSwapperConnector key="tokenswapper" />,
                             label: trans('market.label.swap'),
-                            show: market?.finalized === true && market?.resoluted === false,
+                            show: market?.public === true && market?.finalized === false,
                             id: '0',
                         }, {
                             element: <LiquidityProviderConnector key="liquidity" />,
                             label: trans('market.label.liquidity'),
-                            show: market?.finalized === true && market?.resoluted === false,
+                            show: market?.public === true && market?.finalized === false,
                             id: '1',
                         }, {
                             element: <ClaimFeesConnector key="claimfees" />,
                             label: trans('market.label.claimFees'),
-                            show: market?.resoluted === true,
+                            show: market?.finalized === true,
                             id: '2',
                         }, {
                             element: <SeedPoolConnector key="seedpool" />,
                             label: trans('market.label.seedPool'),
-                            show: market?.finalized === false && market.resoluted === false,
+                            show: market?.finalized === false && market.public === false,
                             id: '3',
                         }]}
                     />

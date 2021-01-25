@@ -1,10 +1,10 @@
+import { gql } from '@apollo/client';
 import { format } from 'date-fns';
-import { FUNGIBLE_TOKEN_ACCOUNT_ID } from '../config';
-import { FetchResult, FetchResultType, isFetchResultSuccesful } from '../models/FetchResult';
-import { MarketCategory, MarketViewModel } from '../models/Market';
-import { sleep } from '../utils/sleep';
+
+import { FetchResult, FetchResultType } from '../models/FetchResult';
+import { GraphMarketResponse, MarketCategory, MarketViewModel, transformToMarketViewModel } from '../models/Market';
 import createProtocolContract from './contracts/ProtocolContract';
-import { getMainToken } from './MainTokenService';
+import { graphqlClient } from './GraphQLService';
 export interface MarketFormValues {
     isCategoricalMarket: boolean;
     categories: MarketCategory[];
@@ -39,36 +39,35 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
     const mainTokenResponse = await getMainToken();
 
     try {
-        const market: MarketViewModel = {
-            id: marketId,
-            finalized: true,
-            resoluted: false,
-            description: "Will SpaceX launch a second manned mission in 2020?",
-            resolutionDate: new Date(),
-            extraInfo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            volume: '100000000',
-            category: ['StakeGG'],
-            owner: 'franklinwaller.testnet',
-            outcomes: [
-                {
-                    outcomeId: 0,
-                    price: 0.4,
-                    weight: 40,
-                    outcomeLabel: 'Yes',
-                },
-                {
-                    outcomeId: 1,
-                    price: 0.6,
-                    weight: 60,
-                    outcomeLabel: 'No',
+        const result = await graphqlClient.query({
+            query: gql`
+                query Market($id: String!) {
+                    market: getMarket(marketId: $id) {
+                        pool {
+                            public
+                            owner
+                            pool_balances {
+                                weight
+                                outcome_id
+                                balance
+                                price
+                            }
+                        }
+                        description
+                        outcome_tags
+                        end_time
+                        extra_info
+                        finalized
+                        id
+                    }
                 }
-            ],
-            collateralToken: FUNGIBLE_TOKEN_ACCOUNT_ID
-        };
+            `,
+            variables: {
+                id: marketId,
+            }
+        });
 
-        await sleep(2000);
-
-        return market;
+        return transformToMarketViewModel(result.data.market);
     } catch (error) {
         console.error('[getMarketById]', error);
         return null;
@@ -78,47 +77,43 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
 
 export interface MarketFilters {
     categories?: MarketCategory[];
+    expired?: boolean;
 }
 
 export async function getMarkets(filters: MarketFilters): Promise<MarketViewModel[]> {
     try {
-        const categories = Object.values(MarketCategory);
-        const market: MarketViewModel = {
-            id: '6',
-            finalized: false,
-            owner: 'godaso.dsjai',
-            resoluted: false,
-            description: "Will SpaceX launch a second manned mission in 2020?",
-            resolutionDate: new Date(),
-            extraInfo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            volume: '100000000',
-            // category: [],
-            category: ['StakeGG', 'CSGP'],
-            outcomes: [
-                {
-                    outcomeId: 0,
-                    price: 0.4,
-                    weight: 40,
-                    outcomeLabel: 'Yes',
-                },
-                {
-                    outcomeId: 1,
-                    price: 0.6,
-                    weight: 60,
-                    outcomeLabel: 'No',
+        const result = await graphqlClient.query<any>({
+            query: gql`
+                query Markets($expired: Boolean) {
+                    market: getMarkets(filters: { expired: $expired }) {
+                        items {
+                            pool {
+                                public
+                                owner
+                                pool_balances {
+                                    weight
+                                    outcome_id
+                                    balance
+                                    price
+                                }
+                            }
+                            description
+                            outcome_tags
+                            end_time
+                            extra_info
+                            finalized
+                            id
+                        }
+                        total
+                    }
                 }
-            ],
-            collateralToken: FUNGIBLE_TOKEN_ACCOUNT_ID
-        };
+            `,
+            variables: {
+                expired: filters.expired,
+            }
+        });
 
-        const x = new Array(23).fill(0).map((nan, index) => ({
-            ...market,
-            id: index.toString(),
-        }));
-
-        await sleep(2000);
-
-        return x;
+        return result.data.market.items.map((market: GraphMarketResponse) => transformToMarketViewModel(market));
     } catch (error) {
         console.error('[getMarketById]', error);
         return [];
@@ -127,41 +122,9 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
 
 export async function getResolutingMarkets(): Promise<MarketViewModel[]> {
     try {
-        const categories = Object.values(MarketCategory);
-        const market: MarketViewModel = {
-            resoluted: false,
-            finalized: true,
-            owner: 'sdahuoasd',
-            id: '6',
-            description: "Will BTC hit $1000000 by the end of 2020?",
-            resolutionDate: new Date(),
-            extraInfo: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            volume: '100000000',
-            // category: [],
-            category: ['StakeGG', 'CSGP'],
-            outcomes: [
-                {
-                    outcomeId: 0,
-                    price: 0.4,
-                    weight: 40,
-                    outcomeLabel: 'Yes',
-                },
-                {
-                    outcomeId: 1,
-                    price: 0.6,
-                    weight: 60,
-                    outcomeLabel: 'No',
-                }
-            ],
-            collateralToken: FUNGIBLE_TOKEN_ACCOUNT_ID
-        };
-
-        const x = new Array(23).fill(0).map((nan, index) => ({
-            ...market,
-            id: index.toString(),
-        }));
-
-        return x;
+        return getMarkets({
+            expired: true,
+        });
     } catch (error) {
         console.error('[getMarketById]', error);
         return [];

@@ -3,14 +3,14 @@ import { TokenViewModel } from '../../models/TokenViewModel';
 
 export type TokensState = Readonly<{
     mainToken: TokenViewModel | null;
-    marketTokens: TokenViewModel[];
+    marketOutcomeTokens: TokenViewModel[];
     loading: boolean;
     errors: string[];
 }>;
 
 const initialState: TokensState = {
     mainToken: null,
-    marketTokens: [],
+    marketOutcomeTokens: [],
     loading: false,
     errors: [],
 };
@@ -26,10 +26,10 @@ const tokensSlice = createSlice({
             });
         },
 
-        setMarketTokens(state: TokensState, action: PayloadAction<TokenViewModel[]>): TokensState {
+        setMarketOutcomeTokens(state: TokensState, action: PayloadAction<TokenViewModel[]>): TokensState {
             return ({
                 ...state,
-                marketTokens: action.payload,
+                marketOutcomeTokens: action.payload,
             });
         },
 
@@ -52,7 +52,7 @@ const tokensSlice = createSlice({
 
 export const {
     setMainToken,
-    setMarketTokens,
+    setMarketOutcomeTokens,
     setTokensError,
     setTokensLoading,
 } = tokensSlice.actions;

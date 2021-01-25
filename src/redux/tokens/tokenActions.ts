@@ -1,8 +1,9 @@
 import { isFetchResultSuccesful } from "../../models/FetchResult";
 import { getMainToken } from "../../services/MainTokenService";
-import { setMainToken, setTokensError, setTokensLoading } from "./tokens";
+import { getMarketOutcomeTokens } from "../../services/TokenService";
+import { setMainToken, setMarketOutcomeTokens, setTokensError, setTokensLoading } from "./tokens";
 
-export function loadTokens() {
+export function loadTokens(marketId: string) {
     return async (dispatch: Function) => {
         try {
             dispatch(setTokensLoading(true));
@@ -15,7 +16,16 @@ export function loadTokens() {
                 return;
             }
 
+            const outcomeTokens = await getMarketOutcomeTokens(marketId);
+
+            if (!isFetchResultSuccesful(outcomeTokens)) {
+                dispatch(setTokensError([outcomeTokens.error]));
+                dispatch(setTokensLoading(false));
+                return;
+            }
+
             dispatch(setMainToken(mainTokenResponse.data));
+            dispatch(setMarketOutcomeTokens(outcomeTokens.data));
             dispatch(setTokensLoading(false));
         } catch (error) {
             dispatch(setTokensLoading(false));

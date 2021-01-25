@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
 import classnames from 'classnames';
 
+import { generateTokenName } from '../../models/TokenViewModel';
+
 import s from './Token.module.scss';
-import generateTokenName from './generateTokenName';
 
 interface Props {
     className?: string;

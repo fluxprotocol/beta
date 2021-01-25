@@ -7,6 +7,6 @@ export interface Pool {
     swap_fee: string;
     total_withdrawn_fees: string;
     fee_pool_weight: string;
-    finalized: boolean;
     block_height: string;
+    public: boolean;
 }
