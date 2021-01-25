@@ -1,3 +1,4 @@
+import { calcDistributionHint } from "../utils/calcDistributionHint";
 import createProtocolContract from "./contracts/ProtocolContract";
 
 export interface SeedPoolFormValues {
@@ -7,10 +8,11 @@ export interface SeedPoolFormValues {
 
 export async function seedPool(marketId: string, values: SeedPoolFormValues) {
     const protocol = await createProtocolContract();
+    const weights = calcDistributionHint(values.outcomePercentages);
 
     protocol.seedPool(
         marketId,
         values.mainTokenInput.toString(),
-        values.outcomePercentages.map(outcome => outcome.toString())
+        weights.map(outcome => outcome.toString())
     );
 }

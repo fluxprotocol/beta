@@ -57,7 +57,7 @@ export async function getMainToken(): Promise<FetchResult<TokenViewModel, string
                 tokenName: FUNGIBLE_TOKEN_ACCOUNT_ID,
                 balanceFormatted: formatMainToken(accountBalance),
                 tokenSymbol: 'Ⓝ',
-                outcomeId: NaN
+                outcomeId: NaN,
             },
         };
     } catch (error) {

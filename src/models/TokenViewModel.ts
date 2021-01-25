@@ -42,6 +42,7 @@ export function transformToTokenViewModels(
             price: Number(poolBalance.price.toFixed(3)),
             tokenName: poolBalance.outcomeLabel,
             tokenSymbol: generateTokenName(poolBalance.outcomeLabel),
+            outcomeId: poolBalance.outcomeId,
         };
     });
 }

@@ -93,8 +93,8 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
     try {
         const result = await graphqlClient.query<any>({
             query: gql`
-                query Markets($expired: Boolean) {
-                    market: getMarkets(filters: { expired: $expired }) {
+                query Markets($expired: Boolean, $categories: [String]) {
+                    market: getMarkets(filters: { expired: $expired, categories: $categories }) {
                         items {
                             pool {
                                 public
@@ -121,6 +121,7 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
             `,
             variables: {
                 expired: filters.expired,
+                categories: filters.categories,
             }
         });
 
@@ -141,8 +142,6 @@ export async function getResolutingMarkets(): Promise<MarketViewModel[]> {
         return [];
     }
 }
-
-
 
 export function formatResolutionDate(resolutionDate: Date): string {
     return format(resolutionDate, 'MMMM d, yyyy HH:mm');
