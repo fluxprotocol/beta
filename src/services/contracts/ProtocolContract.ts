@@ -57,7 +57,7 @@ class ProtocolContract {
             collateral_out: values.amountOut,
             outcome_target: values.fromToken.outcomeId,
             max_shares_in: values.amountIn
-        })
+        }, MAX_GAS, STORAGE_DEFAULT)
     }
 }
 
