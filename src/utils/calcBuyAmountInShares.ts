@@ -5,7 +5,13 @@ const ZERO = new Big(0);
 
 const ceilDiv = (a: Big, b: Big): Big => {
     return a.mod(b) === ZERO ? a.div(b) : a.div(b).add(1);
-  };
+};
+
+const mulBN = (a: Big, b: number, scale = 10000): Big => {
+  return new Big(a)
+    .mul(Math.round(b * scale))
+    .div(scale);
+};
 
 /**
  * Computes the amount of shares that will be bought with `investmentAmount` amount collateral.
@@ -28,9 +34,10 @@ export const calcBuyAmountInShares = (
   }
   if (investmentAmount.eq(0) || poolBalances.every(x => x.eq(0))) return ZERO;
 
-  const investmentAmountMinusFees = investmentAmount.mul(1 - fee);
+  // const investmentAmountMinusFees = mulBN(investmentAmount, 1 - fee);
+  const investmentAmountMinusFees = investmentAmount;
   const newOutcomeBalance = poolBalances.reduce(
-    (accumulator, poolBalance, i) =>
+    (accumulator, poolBalance, i) => 
       i !== outcomeIndex
         ? ceilDiv(accumulator.mul(poolBalance), poolBalance.add(investmentAmountMinusFees))
         : accumulator.mul(poolBalance),

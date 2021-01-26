@@ -1,5 +1,5 @@
 import BN from "bn.js";
-
+// TODO ASK FRANKLIN
 export interface PoolBalanceViewModel {
     outcomeId: number;
     price: number;
@@ -34,15 +34,16 @@ export function transformToPoolBalanceViewModel(response: PoolBalanceGraphData[]
         .reduce((prev, current) => prev.add(new BN(current.weight)), new BN(0));
 
     return response.map((poolBalance) => {
-        const poolWeight = new BN(poolBalance.weight).mul(new BN(100));
-        const weight = poolWeight.divRound(totalWeight);
+        const poolWeight = new BN(poolBalance.weight);
+        const base = new BN(poolBalance.weight).mul(new BN(100));
+        const weight = base.divRound(totalWeight);
 
         return {
             outcomeId: poolBalance.outcome_id,
             outcomeLabel: outcomeTags[poolBalance.outcome_id],
             price: poolBalance.price,
             poolWeight,
-            weight: weight.toNumber(),
+            weight: weight.toNumber(), // TODO: wut?
         };
     }).sort((a, b) => a.outcomeId - b.outcomeId);
 }
