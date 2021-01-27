@@ -22,13 +22,13 @@ export const calcSellAmountInCollateral = (
     throw new Error(`Outcome index '${outcomeId}' must be between 0 and '${poolBalances.length - 1}'`);
   }
 
+  console.log(sharesToSell.toString(), outcomeId);
+
+  poolBalances.forEach(d => console.log(d.toString()));
+
   const holdings = poolBalances[outcomeId];
+  console.log(holdings.toString(), outcomeId);
   const otherHoldings = poolBalances.filter((_, i) => outcomeId !== i);
-
-  const sharesToSellBig = new Big(sharesToSell.toString());
-  const holdingsBig = new Big(holdings.toString());
-  const otherHoldingsBig = otherHoldings.map(x => new Big(x.toString()));
-
   const f = (r: Big): Big => {
     // For three outcomes, where the first outcome is the one being sold, the formula is:
     // f(r) = ((y - R) * (z - R)) * (x  + a - R) - x*y*z
@@ -37,11 +37,11 @@ export const calcSellAmountInCollateral = (
     //   `x`, `y`, `z` are the market maker holdings for each outcome
     //   `a` is the amount of outcomes that are being sold
     //   `r` (the unknown) is the amount of collateral that will be returned in exchange of `a` tokens
-    const R = r.div(1 - fee);
-    const firstTerm = otherHoldingsBig.map(h => h.minus(R)).reduce((a, b) => a.mul(b));
-    const secondTerm = holdingsBig.plus(sharesToSellBig).minus(R);
-    const thirdTerm = otherHoldingsBig.reduce((a, b) => a.mul(b), holdingsBig);
-    return firstTerm.mul(secondTerm).minus(thirdTerm);
+    const R = r.div(1 - fee)
+    const firstTerm = otherHoldings.map(h => h.minus(R)).reduce((a, b) => a.mul(b))
+    const secondTerm = holdings.plus(sharesToSell).minus(R)
+    const thirdTerm = otherHoldings.reduce((a, b) => a.mul(b), holdings)
+    return firstTerm.mul(secondTerm).minus(thirdTerm)
   };
 
   const r = newtonRaphson(f, 0, { maxIterations: 100 });

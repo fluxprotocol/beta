@@ -35,6 +35,8 @@ export const calcBuyAmountInShares = (
   if (investmentAmount.eq(0) || poolBalances.every(x => x.eq(0))) return ZERO;
 
   const investmentAmountMinusFees = mulBN(investmentAmount, 1 - fee);
+
+  console.log(investmentAmountMinusFees.toString())
   
   const newOutcomeBalance = poolBalances.reduce(
     (accumulator, poolBalance, i) => 
