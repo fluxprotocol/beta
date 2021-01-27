@@ -7,6 +7,7 @@ import { routePaths } from '../../routes';
 import trans from '../../translation/trans';
 
 import s from './FeesEarnedOverview.module.scss';
+import { formatCollateralToken, toCollateralToken } from '../../services/CollateralTokenService';
 
 interface Props {
     poolTokens: PoolToken[];
@@ -40,12 +41,12 @@ export default function FeesEarnedOverview({
                             </td>
                             <td>
                                 <Link to={routePaths.marketDetail(poolToken.marketId)} className={s.link}>
-                                    {poolToken.balance}
+                                    {formatCollateralToken(poolToken.balance)}
                                 </Link>
                             </td>
                             <td>
                                 <Link to={routePaths.marketDetail(poolToken.marketId)} className={s.link}>
-                                    {poolToken.fees}
+                                    {formatCollateralToken(poolToken.fees)}
                                 </Link>
                             </td>
                         </tr>
