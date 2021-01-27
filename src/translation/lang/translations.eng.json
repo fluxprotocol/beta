@@ -88,6 +88,12 @@
     "seedPool.weightsTitle": "Outcome weights",
     "seedPool.label.mainTokenBalance": "NEAR input",
 
+    "priceHistory.labels.1d": "1D",
+    "priceHistory.labels.1w": "1W",
+    "priceHistory.labels.3w": "3W",
+    "priceHistory.labels.1m": "1M",
+    "priceHistory.labels.all": "ALL",
+
     "auth.login": "Login",
 
     "navigation.back": "Back"

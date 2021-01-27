@@ -1,0 +1,16 @@
+.button {
+    font-size: 0.875rem;
+    color: var(--c-text);
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.3125rem;
+    border-top-right-radius: inherit !important;
+    border-bottom-right-radius: inherit !important;
+    border-top-left-radius: inherit !important;
+    border-bottom-left-radius: inherit !important;
+}
+
+.selected {
+    color: var(--c-text) !important;
+    background-color: var(--c-secondary) !important;
+}

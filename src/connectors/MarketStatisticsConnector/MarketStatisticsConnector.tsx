@@ -1,8 +1,9 @@
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MarketStatistics from '../../containers/MarketStatistics';
-import MarketStatisticsLoader from '../../containers/MarketStatistics/MarketStatisticsLoader';
+import { fetchPricesHistoryByMarketId } from '../../redux/priceHistory/priceHistoryActions';
 import { Reducers } from '../../redux/reducers';
+import { Period } from '../../services/PricesHistoryService';
 
 interface Props {
     className?: string;
@@ -12,13 +13,20 @@ export default function MarketStatisticsConnector({
     className = '',
 }: Props): ReactElement {
     const pricesHistory = useSelector((store: Reducers) => store.priceHistory.pricesHistory);
-    const loading = useSelector((store: Reducers) => store.priceHistory.pricesLoading);
+    const market = useSelector((store: Reducers) => store.market.marketDetail);
+    const dispatch = useDispatch();
 
-    if (loading) {
-        return <MarketStatisticsLoader />
+    function handlePeriodChange(period: Period) {
+        if (!market) throw new Error('ERR_NO_MARKET');
+
+        dispatch(fetchPricesHistoryByMarketId(market.id, period));
     }
 
     return (
-        <MarketStatistics pricesHistory={pricesHistory} className={className} />
+        <MarketStatistics
+            pricesHistory={pricesHistory}
+            className={className}
+            onPeriodChange={handlePeriodChange}
+        />
     );
 }
