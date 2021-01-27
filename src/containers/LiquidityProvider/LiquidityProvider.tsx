@@ -24,6 +24,13 @@ export default function LiquidityProvider({
 
     return (
         <div>
+            <p>
+                {trans('liquidityProvider.description')}
+            </p>
+            <div className={s.header}>
+                <span>{trans('market.label.youPay')}</span>
+                <span>{trans('global.balance', {}, true)}: {token.balanceFormatted}</span>
+            </div>
             <TokenSelect
                 value={liquidityAmount}
                 onValueChange={(v) => setLiquidityAmount(v)}

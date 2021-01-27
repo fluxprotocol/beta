@@ -16,35 +16,30 @@ interface Props {
 export default function TabbedView({
     items,
 }: Props) {
-    const [activeId, setActiveId] = useState(parseInt(items[0].id, 10));
+    const [activeId, setActiveId] = useState(0);
+    const availableItems = items.filter(item => item.show);
+    const activeItem = availableItems[activeId];
 
     function handleTabClick(item: TabBarItem) {
-        setActiveId(parseInt(item.id, 10));
+        const itemIndex = availableItems.findIndex(i => i.id === item.id);
+        setActiveId(itemIndex);
     }
 
     function handleIndexChange(index: number) {
         setActiveId(index);
     }
 
-    useEffect(() => {
-        const item = items.find(item => item.show);
-
-        if (item) {
-            setActiveId(parseInt(item.id, 10));
-        }
-    }, [items]);
-
     return (
         <div>
             <TabBar
-                items={items}
+                items={availableItems}
                 variant="fullWidth"
                 onTabClick={handleTabClick}
-                activeId={activeId.toString()}
+                activeId={activeItem?.id || ""}
                 className={s.tabs}
             />
             <SwipeableViews index={activeId} onChangeIndex={handleIndexChange}>
-                {items.map(item => item.element)}
+                {availableItems.map(item => item.element)}
             </SwipeableViews>
         </div>
     );

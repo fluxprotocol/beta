@@ -65,6 +65,8 @@
 
     "marketResolution.title.head": ":appName - Resolute",
 
+    "liquidityProvider.description": "Liquidity providers earn a 2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+
     "orderHistory.title": "Order history",
     "orderHistory.table.share": "Share",
     "orderHistory.table.pricePerShare": "Price per share",
