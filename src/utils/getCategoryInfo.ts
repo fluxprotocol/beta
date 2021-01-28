@@ -118,7 +118,7 @@ export default function getCategoryInfo(category?: MarketCategory | string): Cat
                 cardIcon: '',
                 icon: iconBeer,
                 title: trans('market.category.beer'),
-                color: '#FF009C',
+                color: '#47A8BD',
             };
         default:
             return {
