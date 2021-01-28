@@ -1,3 +1,5 @@
+import { GraphUserBalancesItem } from './UserBalance';
+
 interface EarnedFeesGraphData {
     fees: string;
     outcomeId: number;
@@ -10,10 +12,7 @@ interface EarnedFeesGraphData {
 
 export interface GraphAcountBalancesResponse {
     earned_fees: EarnedFeesGraphData[];
-    balances: {
-        balance: string;
-        outcome_id: number;
-    }[];
+    balances: GraphUserBalancesItem[];
 }
 
 export interface PoolToken {

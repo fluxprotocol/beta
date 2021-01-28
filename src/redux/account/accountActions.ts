@@ -1,5 +1,5 @@
-import { setAccount, setAccountLoading, setAccountPoolTokenLoading, setAccountPoolTokens } from "./account";
-import { signUserIn, getAccountInfo, signUserOut, getPoolTokensByAccountId } from '../../services/AccountService';
+import { setAccount, setAccountBalances, setAccountLoading, setAccountPoolTokenLoading, setAccountPoolTokens } from "./account";
+import { signUserIn, getAccountInfo, signUserOut, getAccountBalancesInfo } from '../../services/AccountService';
 
 export function signIn() {
     return async (dispatch: Function) => {
@@ -28,12 +28,13 @@ export function getAccount() {
     }
 }
 
-export function getPoolTokensForAccount(accountId: string) {
+export function loadAccountBalanceInfo(accountId: string) {
     return async (dispatch: Function) => {
         try {
             dispatch(setAccountPoolTokenLoading(true));
-            const poolTokens = await getPoolTokensByAccountId(accountId);
-            dispatch(setAccountPoolTokens(poolTokens));
+            const accountBalancesInfo = await getAccountBalancesInfo(accountId);
+            dispatch(setAccountPoolTokens(accountBalancesInfo.poolTokens));
+            dispatch(setAccountBalances(accountBalancesInfo.marketBalances));
             dispatch(setAccountPoolTokenLoading(false));
         } catch (error) {
             dispatch(setAccountPoolTokenLoading(false));

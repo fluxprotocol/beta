@@ -5,9 +5,9 @@ import classnames from 'classnames';
 import { PoolToken } from '../../models/PoolToken';
 import { routePaths } from '../../routes';
 import trans from '../../translation/trans';
+import { formatCollateralToken } from '../../services/CollateralTokenService';
 
 import s from './FeesEarnedOverview.module.scss';
-import { formatCollateralToken, toCollateralToken } from '../../services/CollateralTokenService';
 
 interface Props {
     poolTokens: PoolToken[];

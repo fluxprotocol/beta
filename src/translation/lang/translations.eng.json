@@ -52,6 +52,7 @@
     "market.category.startups": "Startups",
     "market.category.stocks": "Stocks",
     "market.category.viral": "Viral",
+    "market.category.beer": "Beer",
 
     "marketCreation.label.extraInfo": "Provide info to resolute the market",
     "marketCreation.label.categorySelect": "Select one or more category",
@@ -99,5 +100,10 @@
 
     "auth.login": "Login",
 
-    "navigation.back": "Back"
+    "navigation.back": "Back",
+
+    "userbalances.title": "Balances",
+    "userbalances.table.market": "Market",
+    "userbalances.table.outcome": "Outcome",
+    "userbalances.table.balance": "Balance"
 }

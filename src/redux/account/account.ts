@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Account } from '../../models/Account';
 import { PoolToken } from '../../models/PoolToken';
+import { UserBalance } from '../../models/UserBalance';
 
 export type AccountState = Readonly<{
     account: Account | null;
     loading: boolean;
     poolTokens: PoolToken[];
+    balances: UserBalance[];
     poolTokenLoading: boolean;
     errors: string[];
 }>;
@@ -16,6 +18,7 @@ const initialState: AccountState = {
     poolTokenLoading: false,
     poolTokens: [],
     errors: [],
+    balances: [],
 };
 
 const accountSlice = createSlice({
@@ -46,6 +49,12 @@ const accountSlice = createSlice({
                 poolTokenLoading: action.payload,
             });
         },
+        setAccountBalances(state: AccountState, action: PayloadAction<UserBalance[]>): AccountState {
+            return ({
+                ...state,
+                balances: action.payload,
+            });
+        },
         setAccountErrors(state: AccountState, action: PayloadAction<string[]>): AccountState {
             return ({
                 ...state,
@@ -61,6 +70,7 @@ export const {
     setAccountLoading,
     setAccountPoolTokenLoading,
     setAccountPoolTokens,
+    setAccountBalances,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
