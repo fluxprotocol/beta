@@ -24,26 +24,34 @@ export interface AccountTokenBalance {
 }
 
 export async function getCollateralTokenBalance(tokenAccountId: string, accountId: string): Promise<AccountTokenBalance> {
-    const near = await connectNear();
-    const account = await near.account(accountId);
+    try {
+        const near = await connectNear();
+        const account = await near.account(accountId);
 
-    // if (tokenAccountId === FUNGIBLE_TOKEN_ACCOUNT_ID) {
-    //     const result = await account.getAccountBalance();
+        // if (tokenAccountId === FUNGIBLE_TOKEN_ACCOUNT_ID) {
+        //     const result = await account.getAccountBalance();
 
-    //     return {
-    //         balance: result.available,
-    //         balanceFormatted: utils.format.formatNearAmount(result.available, 3),
-    //     };
-    // }
+        //     return {
+        //         balance: result.available,
+        //         balanceFormatted: utils.format.formatNearAmount(result.available, 3),
+        //     };
+        // }
 
-    const result = await account.viewFunction(tokenAccountId, 'get_balance', {
-        account_id: accountId,
-    });
+        const result = await account.viewFunction(tokenAccountId, 'get_balance', {
+            account_id: accountId,
+        });
 
-    return {
-        balance: result,
-        balanceFormatted: formatCollateralToken(result),
-    };
+        return {
+            balance: result,
+            balanceFormatted: formatCollateralToken(result),
+        };
+    } catch (error) {
+        console.error('[getCollateralTokenBalance]', error);
+        return {
+            balance: '0',
+            balanceFormatted: '0',
+        };
+    }
 }
 
 export async function getCollateralTokenPrice(tokenAccountId: string): Promise<number> {
