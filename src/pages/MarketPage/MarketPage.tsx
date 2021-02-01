@@ -19,6 +19,7 @@ import ClaimEarningsConnector from '../../connectors/ClaimEarningsConnector';
 import SeedPoolConnector from '../../connectors/SeedPoolConnector';
 import MarketClosed from '../../containers/MarketClosed';
 import ExitPoolConnector from '../../connectors/ExitPoolConnector';
+import NotLoggedInConnector from '../../connectors/NotLoggedInConnector';
 
 import s from './MarketPage.module.scss';
 
@@ -28,6 +29,7 @@ interface RouterParams {
 
 export default function MarketPage() {
     const dispatch = useDispatch();
+    const account = useSelector((store: Reducers) => store.account.account);
     const market = useSelector((store: Reducers) => store.market.marketDetail);
     const poolToken = useSelector((store: Reducers) => store.market.poolTokenBalance);
     const { marketId } = useParams<RouterParams>();
@@ -57,32 +59,37 @@ export default function MarketPage() {
                         items={[{
                             element: <TokenSwapperConnector key="tokenswapper" />,
                             label: trans('market.label.swap'),
-                            show: market?.public === true && market?.finalized === false,
+                            show: account !== null && market?.public === true && market?.finalized === false,
                             id: '0',
                         }, {
                             element: <LiquidityProviderConnector key="liquidity" />,
                             label: trans('market.label.liquidity'),
-                            show: market?.public === true && market?.finalized === false,
+                            show: account !== null && market?.public === true && market?.finalized === false,
                             id: '1',
                         }, {
                             element: <ClaimEarningsConnector key="claimEarnings" />,
                             label: trans('market.label.claimEarnings'),
-                            show: market?.finalized === true,
+                            show: account !== null && market?.finalized === true,
                             id: '2',
                         }, {
                             element: <SeedPoolConnector key="seedpool" />,
                             label: trans('market.label.seedPool'),
-                            show: market?.finalized === false && market.public === false && market.resolutionDate > new Date(),
+                            show: account !== null && market?.finalized === false && market.public === false && market.resolutionDate > new Date(),
                             id: '3',
                         }, {
                             element: <MarketClosed key="marketClosed" />,
                             label: trans('market.label.marketClosed'),
-                            show: market?.finalized === false && market.resolutionDate <= new Date(),
+                            show: account !== null && market?.finalized === false && market.resolutionDate <= new Date(),
                             id: '4',
                         }, {
                             element: <ExitPoolConnector key="exitPool" />,
                             label: trans('market.label.exitPool'),
-                            show: market?.public === true && !!poolToken,
+                            show: account !== null && market?.public === true && !!poolToken,
+                            id: '5',
+                        }, {
+                            element: <NotLoggedInConnector key="notloggedin" />,
+                            label: trans('market.label.notLoggedIn'),
+                            show: account === null,
                             id: '5',
                         }]}
                     />

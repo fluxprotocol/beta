@@ -46,6 +46,7 @@
     "market.label.seedPool": "Seed pool",
     "market.label.marketClosed": "Market closed",
     "market.label.exitPool": "Exit Pool",
+    "market.label.notLoggedIn": "Not logged in",
 
     "market.claimEarnings.validMarket": "This market was resoluted and marked as valid. You can claim your earnings below",
     "market.claimEarnings.invalidMarket": "This market was marked as invalid, you can claim all your tokens back.",
@@ -57,7 +58,7 @@
     "market.overview.inverseRate": "Inverse rate",
     "market.overview.estimatedFee": "Estimated fee",
     "market.overview.maxSlippage": "Max. slippage",
-    
+
     "market.category.crypto": "Crypto",
     "market.category.esports": "Esports",
     "market.category.meme": "Memes",
@@ -67,6 +68,10 @@
     "market.category.stocks": "Stocks",
     "market.category.viral": "Viral",
     "market.category.beer": "Beer",
+
+    "notLoggedIn.title": "Welcome to Flux!",
+    "notLoggedIn.description": "To start trading on markets, you have to be logged in.",
+    "notLoggedIn.action.login": "Login",
 
     "marketCreation.label.extraInfo": "Provide info to resolute the market",
     "marketCreation.label.categorySelect": "Select one or more category",

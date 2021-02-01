@@ -25,7 +25,7 @@ export default function HomeHeader({
                 <span className={s.subTitle}>{trans('home.title.latestTrends')}</span>
             </div>
 
-            <Button onClick={onCreateMarketClick}>{trans('global.actions.createMarket')}</Button>
+            {account && <Button onClick={onCreateMarketClick}>{trans('global.actions.createMarket')}</Button>}
         </div>
     );
 }
