@@ -7,6 +7,7 @@ import { themeContext, useDarkMode } from './utils/hooks/useDarkModeTheme';
 
 function App(): ReactElement {
     const [theme, toggleTheme] = useDarkMode();
+
     return (
         // @ts-ignore
         <themeContext.Provider value={{ toggleTheme, theme }}>

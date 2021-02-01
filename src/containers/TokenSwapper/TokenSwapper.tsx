@@ -19,6 +19,8 @@ import { BUY, SELL } from '../../config';
 import swap from "./../../assets/images/icons/swap.svg";
 import { validateSwapFormValues } from './utils/validateSwapFormValues';
 import Error from '../../components/Error';
+import TextButton from '../../components/TextButton';
+import market from '../../redux/market/market';
 
 interface TokenSwapperProps {
     inputs: TokenViewModel[];
@@ -64,6 +66,14 @@ export default function TokenSwapper({
         });
     }
 
+    function handleBalanceClick() {
+        setFormValues({
+            ...formValues,
+            amountIn: formValues.fromToken.balance,
+            formattedAmountIn: formValues.fromToken.balanceFormatted,
+        });
+    }
+
     // TODO: mutation makes token values after switch go down recursively, should only switch between 2 states
     function switchTokenPlaces() {
         setFormValues({
@@ -83,12 +93,16 @@ export default function TokenSwapper({
     const mutation = mutateFormValues(formValues, poolTokens);
     const errors = validateSwapFormValues(mutation);
 
+    console.log('[] mutation -> ', mutation);
+
     return (
         <form className={classnames(s['token-swapper'], className)}>
             <div className={s['token-swapper__token']}>
-                <div className={s['token-swapper__token-header']}>
+                <div className={classnames(s.tokenHeader, s.noMargin)}>
                     <span>{trans('market.label.youPay')}</span>
-                    <span>{trans('global.balance', {}, true)}: {mutation.fromToken.balanceFormatted}</span>
+                    <TextButton onClick={handleBalanceClick} className={s.balanceButton}>
+                        {trans('global.balance', {}, true)}: {mutation.fromToken.balanceFormatted}
+                    </TextButton>
                 </div>
                 <TokenSelect
                     onTokenSwitch={handleInputTokenSwitch}
@@ -104,7 +118,7 @@ export default function TokenSwapper({
             </div>
 
             <div className={s['token-swapper__token']}>
-                <div className={s['token-swapper__token-header']}>
+                <div className={s.tokenHeader}>
                     <span>{trans('market.label.youReceive')}</span>
                 </div>
                 <TokenSelect
