@@ -47,7 +47,7 @@ export default function SeedPool({
     function handleMainTokenChange(value: string) {
         setFormValues({
             ...formValues,
-            mainTokenInput: Number(value),
+            mainTokenInput: value,
         });
     }
 
@@ -79,6 +79,7 @@ export default function SeedPool({
                             tokens={[mainToken]}
                             selectedToken={mainToken}
                             onValueChange={handleMainTokenChange}
+                            placeholder="1000"
                         />
                         <Error error={errors.mainTokenInput} />
                     </div>

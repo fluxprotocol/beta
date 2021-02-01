@@ -19,6 +19,7 @@ interface Props {
     showPrice?: boolean;
     onValueChange?: (newValue: string) => void;
     onTokenSwitch: (token: TokenViewModel) => void;
+    placeholder?: string;
 }
 
 export default function TokenSelect({
@@ -29,6 +30,7 @@ export default function TokenSelect({
     onValueChange = () => {},
     showPrice = true,
     className = '',
+    placeholder = '0',
 }: Props) {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -65,7 +67,7 @@ export default function TokenSelect({
                 <input
                     type="number"
                     value={value}
-                    placeholder="0"
+                    placeholder={placeholder}
                     className={s['token-select__input']}
                     onChange={(e) => onValueChange(e.target.value)}
                 />

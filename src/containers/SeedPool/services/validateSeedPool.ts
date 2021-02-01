@@ -42,14 +42,18 @@ export function validateSeedPool(formValues: SeedPoolFormValues, market: MarketV
         });
     }
 
-    const inputAmount = toCollateralToken(formValues.mainTokenInput.toString());
+    if (formValues.mainTokenInput) {
+        const inputAmount = toCollateralToken(formValues.mainTokenInput);
 
-    if (new Big(inputAmount).lte(0)) {
-        errors.canSeed = false;
-    }
+        if (new Big(inputAmount).lte(0)) {
+            errors.canSeed = false;
+        }
 
-    if (new Big(inputAmount).gt(market.collateralToken.balance)) {
-        errors.mainTokenInput = trans('seedPool.errors.notEnoughBalance');
+        if (new Big(inputAmount).gt(market.collateralToken.balance)) {
+            errors.mainTokenInput = trans('seedPool.errors.notEnoughBalance');
+            errors.canSeed = false;
+        }
+    } else {
         errors.canSeed = false;
     }
 

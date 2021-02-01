@@ -5,7 +5,7 @@ import createTokenContract from "./contracts/TokenContract";
 
 export interface SeedPoolFormValues {
     outcomePercentages: number[];
-    mainTokenInput: number;
+    mainTokenInput: string;
 }
 
 export async function seedPool(marketId: string, values: SeedPoolFormValues) {
@@ -14,7 +14,7 @@ export async function seedPool(marketId: string, values: SeedPoolFormValues) {
 
     protocol.seedPool(
         marketId,
-        toCollateralToken(values.mainTokenInput.toString()),
+        toCollateralToken(values.mainTokenInput),
         weights.map(outcome => outcome.toString())
     );
 }
