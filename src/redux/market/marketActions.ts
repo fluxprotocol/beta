@@ -18,10 +18,11 @@ export function createNewMarket(values: MarketFormValues) {
     };
 }
 
-export function fetchMarketById(id: string) {
+export function loadMarket(id: string) {
     return async (dispatch: Function) => {
         try {
             dispatch(setMarketLoading(true));
+            dispatch(setMarketDetail(undefined));
 
             const market = await getMarketById(id);
 
@@ -44,7 +45,7 @@ export function fetchMarketById(id: string) {
             dispatch(setMarketLoading(false));
         } catch (error) {
             dispatch(setMarketLoading(false));
-            console.error('[fetchMarketById]', error);
+            console.error('[loadMarket]', error);
         }
     };
 }

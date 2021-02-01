@@ -9,7 +9,7 @@ import MarketResolutionInfoConenctor from '../../connectors/MarketResolutionInfo
 import MarketStatisticsConnector from '../../connectors/MarketStatisticsConnector';
 import TokenSwapperConnector from '../../connectors/TokenSwapperConnector';
 import Page from '../../containers/Page';
-import { fetchMarketById } from '../../redux/market/marketActions';
+import { loadMarket } from '../../redux/market/marketActions';
 import trans from '../../translation/trans';
 import ActionsCard from '../../components/ActionsCard';
 import TabbedView from '../../containers/TabbedViews';
@@ -35,7 +35,7 @@ export default function MarketPage() {
     const { marketId } = useParams<RouterParams>();
 
     useEffect(() => {
-        dispatch(fetchMarketById(marketId));
+        dispatch(loadMarket(marketId));
     }, [dispatch, marketId]);
 
     return (
