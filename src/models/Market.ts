@@ -25,6 +25,7 @@ export interface GraphMarketResponse {
     categories: string[];
     payout_numerator?: string[] | null;
     pool: {
+        seed_nonce: string;
         public: boolean;
         owner: string;
         collateral_token_id: string;
@@ -55,6 +56,7 @@ export interface MarketViewModel {
     outcomeTokens: TokenViewModel[];
     collateralToken: TokenViewModel;
     invalid: boolean;
+    seedNonce: string;
     payoutNumerator: string[] | null;
     poolTokenInfo: {
         totalSupply: string;
@@ -82,6 +84,7 @@ export async function transformToMarketViewModel(
         volume: graphResponse.volume,
         collateralTokenId: graphResponse.pool.collateral_token_id,
         collateralToken,
+        seedNonce: graphResponse.pool.seed_nonce || '1',
         invalid: graphResponse.finalized && payoutNumerator === null,
         payoutNumerator,
         outcomeTokens: transformToTokenViewModels(

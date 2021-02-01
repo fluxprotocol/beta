@@ -15,6 +15,7 @@ import TokenSelect from '../TokenSelect';
 import { SeedPoolFormValues } from '../../services/PoolService';
 
 import s from './SeedPool.module.scss';
+import Error from '../../components/Error';
 
 interface Props {
     market: MarketViewModel;
@@ -57,7 +58,7 @@ export default function SeedPool({
         });
     }, [market.outcomeTokens]);
 
-    const errors = validateSeedPool(formValues);
+    const errors = validateSeedPool(formValues, market);
 
     return (
         <div>
@@ -79,6 +80,7 @@ export default function SeedPool({
                             selectedToken={mainToken}
                             onValueChange={handleMainTokenChange}
                         />
+                        <Error error={errors.mainTokenInput} />
                     </div>
 
                     <h3>{trans('seedPool.weightsTitle')}</h3>
@@ -102,17 +104,18 @@ export default function SeedPool({
                         </div>
                     ))}
 
-                    {!errors.canSubmit && <p>{errors.message}</p>}
+                    {!errors.canSeed && <p>{errors.message}</p>}
 
                     <Button
                         className={s.confirmButton}
-                        disabled={!errors.canSubmit}
+                        disabled={!errors.canSeed}
                         onClick={() => onSeedPool(formValues)}
                     >
-                        {trans('seedPool.action.submit')}
+                        {market.seedNonce === '1' ? trans('seedPool.action.submit') : trans('seedPool.action.reSeed')}
                     </Button>
                     <Button
                         className={s.confirmButton}
+                        disabled={!errors.canPublish}
                         onClick={() => onFinalizePool()}
                     >
                         {trans('seedPool.action.finalize')}

@@ -1,17 +1,25 @@
+import Big from "big.js";
+import { MarketViewModel } from "../../../models/Market";
+import { TokenViewModel } from "../../../models/TokenViewModel";
+import { toCollateralToken } from "../../../services/CollateralTokenService";
 import { SeedPoolFormValues } from "../../../services/PoolService";
 import trans from "../../../translation/trans";
 
 export interface SeedPoolFormErrors {
     outcomePercentages: string[];
-    canSubmit: boolean;
+    canSeed: boolean;
+    canPublish: boolean;
     message: string;
+    mainTokenInput: string;
 }
 
-export function validateSeedPool(formValues: SeedPoolFormValues) {
+export function validateSeedPool(formValues: SeedPoolFormValues, market: MarketViewModel) {
     const errors: SeedPoolFormErrors = {
         outcomePercentages: [],
-        canSubmit: true,
+        canSeed: true,
+        canPublish: true,
         message: '',
+        mainTokenInput: '',
     }
 
     errors.outcomePercentages = formValues.outcomePercentages.map(percentage => {
@@ -25,13 +33,28 @@ export function validateSeedPool(formValues: SeedPoolFormValues) {
     const percentageTogether = formValues.outcomePercentages.reduce((prev, cur) => prev + cur, 0);
 
     if (hasOutcomeErrors || percentageTogether !== 100) {
-        errors.canSubmit = false;
+        errors.canSeed = false;
     }
 
     if (percentageTogether !== 100) {
         errors.message = trans('seedPool.not100Percent', {
             percentage: percentageTogether.toString(),
         });
+    }
+
+    const inputAmount = toCollateralToken(formValues.mainTokenInput.toString());
+
+    if (new Big(inputAmount).lte(0)) {
+        errors.canSeed = false;
+    }
+
+    if (new Big(inputAmount).gt(market.collateralToken.balance)) {
+        errors.mainTokenInput = trans('seedPool.errors.notEnoughBalance');
+        errors.canSeed = false;
+    }
+
+    if (market.seedNonce === '1') {
+        errors.canPublish = false;
     }
 
     return errors;

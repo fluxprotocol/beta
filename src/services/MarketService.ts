@@ -56,6 +56,7 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
                         pool {
                             public
                             owner
+                            seed_nonce
                             collateral_token_id
                             pool_balances {
                                 weight
@@ -123,6 +124,7 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
                                 public
                                 owner
                                 collateral_token_id
+                                seed_nonce
                                 pool_balances {
                                     weight
                                     outcome_id
@@ -139,7 +141,6 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
                             id
                             volume
                             categories
-
                         }
                         total
                     }

@@ -26,11 +26,13 @@ export default function SeedPoolConnector() {
         return <div />;
     }
 
-    return <SeedPool
-        account={account}
-        market={market}
-        mainToken={market.collateralToken}
-        onSeedPool={handleSeedPool}
-        onFinalizePool={handleFinalize}
-    />
+    return (
+        <SeedPool
+            account={account}
+            market={market}
+            mainToken={market.collateralToken}
+            onSeedPool={handleSeedPool}
+            onFinalizePool={handleFinalize}
+        />
+    );
 }

@@ -25,7 +25,9 @@ export default function LiquidityProvider({
     return (
         <div>
             <p>
-                {trans('liquidityProvider.description')}
+                {trans('liquidityProvider.description', {
+                    percentage: '2',
+                })}
             </p>
 
             <div className={s.header}>

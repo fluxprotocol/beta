@@ -88,7 +88,7 @@
 
     "marketResolution.title.head": ":appName - Resolute",
 
-    "liquidityProvider.description": "Liquidity providers earn a 2% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+    "liquidityProvider.description": "Liquidity providers earn a :percentage% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
 
     "orderHistory.title": "Order history",
     "orderHistory.table.share": "Share",
@@ -108,8 +108,10 @@
     "seedPool.input100": "Outcome can't have a weight of 100 or higher",
     "seedPool.action.submit": "Seed pool",
     "seedPool.action.finalize": "Publish pool",
+    "seedPool.action.reSeed": "Reseed pool",
     "seedPool.weightsTitle": "Outcome weights",
     "seedPool.label.mainTokenBalance": "NEAR input",
+    "seedPool.errors.notEnoughBalance": "Not enough balance",
 
     "priceHistory.labels.1d": "1D",
     "priceHistory.labels.1w": "1W",

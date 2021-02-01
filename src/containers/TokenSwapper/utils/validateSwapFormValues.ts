@@ -18,6 +18,12 @@ export function validateSwapFormValues(formValues: SwapFormValues): SwapFormErro
             errors.message = trans('swap.errors.notEnoughBalance');
             errors.canSubmit = false;
         }
+
+        if (new Big(formValues.amountIn).lte(0)) {
+            errors.canSubmit = false;
+        }
+    } else {
+        errors.canSubmit = false;
     }
 
     return errors;
