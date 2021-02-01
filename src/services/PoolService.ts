@@ -27,7 +27,7 @@ export async function publishPool(marketId: string, amountIn: string, tokenId: s
 
 export async function joinPool(marketId: string, amountIn: string, tokenId: string) {
     const token = await createTokenContract(tokenId);
-    token.joinPool(marketId, toCollateralToken(amountIn));
+    token.joinPool(marketId, amountIn);
 }
 
 export async function exitPool(marketId: string, amountIn: string) {

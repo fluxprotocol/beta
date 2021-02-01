@@ -14,7 +14,17 @@
 .header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.625rem;
+    align-items: center;
     font-size: 0.75rem;
     padding: 0 0.625rem;
+
+}
+
+.balanceButton {
+    border: none;
+    background: none;
+    color: var(--c-text);
+    cursor: pointer;
+    margin-right: -8px;
+    font-size: 0.75rem;
 }

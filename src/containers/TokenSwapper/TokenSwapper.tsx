@@ -93,8 +93,6 @@ export default function TokenSwapper({
     const mutation = mutateFormValues(formValues, poolTokens);
     const errors = validateSwapFormValues(mutation);
 
-    console.log('[] mutation -> ', mutation);
-
     return (
         <form className={classnames(s['token-swapper'], className)}>
             <div className={s['token-swapper__token']}>

@@ -1,6 +1,5 @@
 import Big from "big.js";
 import { TokenViewModel } from "../../../models/TokenViewModel";
-import { toCollateralToken } from "../../../services/CollateralTokenService";
 import trans from "../../../translation/trans";
 
 interface LiquidityProviderErrors {
@@ -8,14 +7,19 @@ interface LiquidityProviderErrors {
     canAddLiquidity: boolean;
 }
 
-export function validateLiquidityProviderFormValues(formValues: string, collateralToken: TokenViewModel): LiquidityProviderErrors {
+export interface LiquidityProviderFormValues {
+    liquidityAmountIn: string;
+    liquidityAmountInFormatted: string;
+}
+
+export function validateLiquidityProviderFormValues(formValues: LiquidityProviderFormValues, collateralToken: TokenViewModel): LiquidityProviderErrors {
     const errors: LiquidityProviderErrors = {
         canAddLiquidity: true,
         liquidityAmountIn: '',
     };
 
-    if (formValues) {
-        const inputAmount = toCollateralToken(formValues);
+    if (formValues.liquidityAmountIn) {
+        const inputAmount = formValues.liquidityAmountIn;
 
         if (new Big(inputAmount).lte(0)) {
             errors.canAddLiquidity = false;
