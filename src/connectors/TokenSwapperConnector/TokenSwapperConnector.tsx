@@ -1,12 +1,15 @@
-import React, { ReactElement, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TokenSwapper from '../../containers/TokenSwapper';
 import TokenSwapperLoader from '../../containers/TokenSwapper/TokenSwapperLoader';
 import { TokenViewModel } from '../../models/TokenViewModel';
+import { reloadTokens } from '../../redux/market/marketActions';
 import { Reducers } from '../../redux/reducers';
 import createProtocolContract from '../../services/contracts/ProtocolContract';
 import createTokenContract from '../../services/contracts/TokenContract';
 import { SwapFormValues } from '../../services/SwapService';
+
+const TOKEN_FETCH_INTERVAL_MS = 5000;
 
 interface Props {
     className?: string;
@@ -15,14 +18,24 @@ interface Props {
 export default function TokenSwapperConnector({
     className,
 }: Props): ReactElement {
+    const dispatch = useDispatch();
     const [switched, setSwitched] = useState(false);
     const market = useSelector((store: Reducers) => store.market.marketDetail);
+    const intervalId = useRef<NodeJS.Timeout>();
 
-    if (!market) {
-        return <TokenSwapperLoader />;
-    }
+    useEffect(() => {
+        if (!market) return;
 
-    const inputs: TokenViewModel[] = [market.collateralToken];
+        clearInterval(intervalId.current as unknown as number);
+
+        intervalId.current = setInterval(() => {
+            dispatch(reloadTokens(market.id));
+        }, TOKEN_FETCH_INTERVAL_MS);
+
+        return () => {
+            clearInterval(intervalId.current as unknown as number);
+        }
+    }, [market, dispatch]);
 
     async function onConfirm(
         values: SwapFormValues
@@ -41,6 +54,12 @@ export default function TokenSwapperConnector({
     function handleRequestSwitchPairs() {
         setSwitched(!switched);
     }
+
+    if (!market) {
+        return <TokenSwapperLoader />;
+    }
+
+    const inputs: TokenViewModel[] = [market.collateralToken];
 
     return (
         <TokenSwapper

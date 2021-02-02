@@ -1,10 +1,9 @@
 import { gql } from '@apollo/client';
 import { format } from 'date-fns';
-import { DEFAULT_LIMIT } from '../config';
 
 import { FetchResult, FetchResultType } from '../models/FetchResult';
 import { GraphMarketResponse, MarketCategory, MarketViewModel, transformToMarketViewModel } from '../models/Market';
-import { transformToMainTokenViewModel } from '../models/TokenViewModel';
+import { TokenViewModel, transformToMainTokenViewModel, transformToTokenViewModels } from '../models/TokenViewModel';
 import { UserBalance } from '../models/UserBalance';
 import { getAccountInfo, getBalancesForMarketByAccount } from './AccountService';
 import createProtocolContract from './contracts/ProtocolContract';
@@ -162,6 +161,50 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
         return Promise.all(marketsPromises);
     } catch (error) {
         console.error('[getMarketById]', error);
+        return [];
+    }
+}
+
+export async function getMarketOutcomeTokens(marketId: string): Promise<TokenViewModel[]> {
+    try {
+        const result = await graphqlClient.query({
+            query: gql`
+                query MarketOutcomeTokens($id: String!) {
+                    market: getMarket(marketId: $id) {
+                        pool {
+                            pool_balances {
+                                weight
+                                outcome_id
+                                balance
+                                price
+                                odds
+                            }
+                        }
+                        outcome_tags
+                    }
+                }
+            `,
+            variables: {
+                id: marketId,
+            }
+        });
+
+        const market: GraphMarketResponse = result.data.market;
+        const account = await getAccountInfo();
+        const accountId = account?.accountId;
+        let balances: UserBalance[] = [];
+
+        if (accountId) {
+            balances = await getBalancesForMarketByAccount(accountId, marketId);
+        }
+
+        return transformToTokenViewModels(
+            market.outcome_tags,
+            market.pool.pool_balances as any,
+            balances
+        );
+    } catch (error) {
+        console.error('[getMarketOutcomeTokens]', error);
         return [];
     }
 }

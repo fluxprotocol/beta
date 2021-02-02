@@ -4,6 +4,7 @@ import MarketStatistics from '../../containers/MarketStatistics';
 import { fetchPricesHistoryByMarketId } from '../../redux/priceHistory/priceHistoryActions';
 import { Reducers } from '../../redux/reducers';
 import { Period } from '../../services/PricesHistoryService';
+import { usePrevious } from '../../utils/hooks/usePrevious';
 
 const PRICE_HISTORY_INTERVAL_MS = 2000;
 interface Props {
@@ -15,6 +16,7 @@ export default function MarketStatisticsConnector({
 }: Props): ReactElement {
     const pricesHistory = useSelector((store: Reducers) => store.priceHistory.pricesHistory);
     const market = useSelector((store: Reducers) => store.market.marketDetail);
+    const previousMarket = usePrevious(market);
     const intervalId = useRef<NodeJS.Timeout>();
     const dispatch = useDispatch();
 
@@ -32,6 +34,7 @@ export default function MarketStatisticsConnector({
 
     useEffect(() => {
         if (!market) return;
+        if (market.id === previousMarket?.id) return;
 
         // @ts-ignore
         clearInterval(intervalId.current);

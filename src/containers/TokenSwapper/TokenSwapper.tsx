@@ -124,6 +124,7 @@ export default function TokenSwapper({
                     value={mutation.formattedAmountOut}
                     tokens={outputs}
                     selectedToken={mutation.toToken}
+                    disabledInput
                 />
             </div>
 

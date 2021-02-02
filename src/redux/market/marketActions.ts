@@ -1,7 +1,7 @@
 import { getAccountInfo, getPoolBalanceForMarketByAccount } from "../../services/AccountService";
-import { createMarket, getMarketById, getMarkets, getResolutingMarkets, MarketFilters, MarketFormValues } from "../../services/MarketService";
+import { createMarket, getMarketById, getMarketOutcomeTokens, getMarkets, getResolutingMarkets, MarketFilters, MarketFormValues } from "../../services/MarketService";
 import { publishPool, seedPool, exitPool, SeedPoolFormValues } from "../../services/PoolService";
-import { appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance } from "./market";
+import { appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance, setMarketDetailTokens } from "./market";
 
 export function createNewMarket(values: MarketFormValues) {
     return async (dispatch: Function) => {
@@ -48,6 +48,15 @@ export function loadMarket(id: string) {
             console.error('[loadMarket]', error);
         }
     };
+}
+
+export function reloadTokens(marketId: string) {
+    return async (dispatch: Function) => {
+        const tokens = await getMarketOutcomeTokens(marketId);
+        if (tokens.length === 0) return;
+
+        dispatch(setMarketDetailTokens(tokens));
+    }
 }
 
 export function fetchMarkets(filters: MarketFilters, append?: boolean) {
