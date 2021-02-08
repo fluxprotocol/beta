@@ -48,9 +48,11 @@ export async function createMarket(values: MarketFormValues): Promise<FetchResul
 
 export async function getMarketById(marketId: string): Promise<MarketViewModel | null> {
     try {
+        const account = await getAccountInfo();
+        const accountId = account?.accountId;
         const result = await graphqlClient.query({
             query: gql`
-                query Market($id: String!) {
+                query Market($id: String!, $accountId: String) {
                     market: getMarket(marketId: $id) {
                         pool {
                             public
@@ -78,22 +80,26 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
                         volume
                         categories
                         payout_numerator
+                        claimed_earnings(accountId: $accountId) {
+                            payout
+                        }
                     }
                 }
             `,
             variables: {
                 id: marketId,
+                accountId,
             }
         });
 
         const market: GraphMarketResponse = result.data.market;
-        const account = await getAccountInfo();
-        const accountId = account?.accountId;
         let balances: UserBalance[] = [];
 
         if (accountId) {
             balances = await getBalancesForMarketByAccount(accountId, marketId);
         }
+
+        console.log('[] market -> ', market);
 
         const collateralToken = await transformToMainTokenViewModel(market.pool.collateral_token_id, accountId);
 

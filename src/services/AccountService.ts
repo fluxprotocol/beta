@@ -23,7 +23,7 @@ export async function getAccountInfo(): Promise<Account | null> {
     const nearAccount = connectedWallet.account();
 
     return {
-        accountId: nearAccount.accountId,
+        accountId: 'peterflux' || nearAccount.accountId,
         balance: (await nearAccount.getAccountBalance()).available,
     };
 }

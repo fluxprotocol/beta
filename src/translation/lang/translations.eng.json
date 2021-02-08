@@ -50,6 +50,7 @@
 
     "market.claimEarnings.validMarket": "This market was resoluted and marked as valid. You can claim your earnings below",
     "market.claimEarnings.invalidMarket": "This market was marked as invalid, you can claim all your tokens back.",
+    "market.claimEarnings.alreadyClaimed": "You've already claimed :payout :tokenName",
     "market.claimEarnings.label.outcome": "Outcome",
     "market.claimEarnings.label.balance": "Your balance",
     "market.claimEarnings.label.payout": "Market payout",

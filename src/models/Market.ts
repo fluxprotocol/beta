@@ -1,3 +1,4 @@
+import { ClaimViewModel, GraphClaimResponse, transformToClaimViewModel } from "./Claim";
 import { TokenViewModel, transformToTokenViewModels } from "./TokenViewModel";
 import { UserBalance } from "./UserBalance";
 
@@ -24,6 +25,7 @@ export interface GraphMarketResponse {
     volume: string;
     categories: string[];
     payout_numerator?: string[] | null;
+    claimed_earnings?: GraphClaimResponse;
     pool: {
         seed_nonce: string;
         public: boolean;
@@ -58,6 +60,7 @@ export interface MarketViewModel {
     invalid: boolean;
     seedNonce: string;
     payoutNumerator: string[] | null;
+    claim?: ClaimViewModel;
     poolTokenInfo: {
         totalSupply: string;
     };
@@ -87,6 +90,7 @@ export async function transformToMarketViewModel(
         seedNonce: graphResponse.pool.seed_nonce || '1',
         invalid: graphResponse.finalized && payoutNumerator === null,
         payoutNumerator,
+        claim: graphResponse.claimed_earnings ? transformToClaimViewModel(graphResponse.claimed_earnings) : undefined,
         outcomeTokens: transformToTokenViewModels(
             graphResponse.outcome_tags,
             graphResponse.pool.pool_balances as any,
