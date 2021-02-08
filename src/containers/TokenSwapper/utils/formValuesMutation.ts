@@ -7,6 +7,7 @@ import Big from "big.js";
 import { calcSellAmountInCollateral } from "../../../utils/calcSellAmountOut";
 
 export default function mutateFormValues(formValues: SwapFormValues, tokens: TokenViewModel[]): SwapFormValues {
+
     if (!formValues.formattedAmountIn) {
         return formValues;
     }
@@ -47,6 +48,6 @@ export default function mutateFormValues(formValues: SwapFormValues, tokens: Tok
     return {
         ...formValues,
         formattedAmountOut: formatCollateralToken(amountOut.toString()),
-        amountOut: amountOut.toString()
+        amountOut: amountOut.round(0, 0).toString()
     };
 }
