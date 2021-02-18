@@ -26,8 +26,6 @@ export default function ExitPool({
     const [formValues, setFormValues] = useState(createDefaultExitPoolFormValues());
     const token = transformPoolTokenToTokenViewModel(poolToken);
 
-    console.log(poolToken)
-
     function handleAmountInChange(value: string) {
         setFormValues({
             ...formValues,

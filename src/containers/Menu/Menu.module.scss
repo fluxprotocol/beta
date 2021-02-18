@@ -13,18 +13,19 @@
 
     &__subheader{
         width: 100%;
-        background-color: red;
+        background-color: var(--c-red);
         display: block;
         text-align: center;
-        color: white;
-        padding-top: 15px;
+        color: var(--c-white);
+        padding-top: 0.9375rem;
     }
+
     &__items {
         width: 100%;
         display: flex;
         align-items: center;
         padding: 0 1.5625rem;
-        color: white;
+        color: var(--c-text);
 
         @include for-size($default-bigger-screen-breakpoint) {
             max-width: $large-container-size;
