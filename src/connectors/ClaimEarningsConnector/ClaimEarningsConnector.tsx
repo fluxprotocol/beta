@@ -8,6 +8,7 @@ import { claimEarningsForMarket } from '../../services/MarketService';
 export default function ClaimEarningsConnector(): ReactElement {
     const market = useSelector((store: Reducers) => store.market.marketDetail);
     const poolToken = useSelector((store: Reducers) => store.market.poolTokenBalance);
+    const escrowStatus = useSelector((store: Reducers) => store.market.escrowStatus);
 
     const handleClaim = useCallback(() => {
         if (!market) return;
@@ -26,6 +27,7 @@ export default function ClaimEarningsConnector(): ReactElement {
             poolToken={poolToken}
             market={market}
             onClaim={handleClaim}
+            escrowStatus={escrowStatus}
         />
     );
 }

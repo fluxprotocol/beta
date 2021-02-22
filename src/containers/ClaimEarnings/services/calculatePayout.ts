@@ -1,8 +1,9 @@
+import { EscrowStatus } from "@fluxprotocol/amm-sdk/dist/models/EscrowStatus";
 import Big from "big.js";
 import { PoolToken } from "../../../models/PoolToken";
 import { TokenViewModel } from "../../../models/TokenViewModel";
 
-export function calculatePayout(tokens: TokenViewModel[], payoutNumerator: string[] | null, poolToken?: PoolToken): Big {
+export function calculatePayout(tokens: TokenViewModel[], payoutNumerator: string[] | null, escrowStatus: EscrowStatus[], poolToken?: PoolToken): Big {
     let claimable = new Big(0);
 
     // First add fees
@@ -12,7 +13,9 @@ export function calculatePayout(tokens: TokenViewModel[], payoutNumerator: strin
 
     // Token balance * payout numerator
     if (payoutNumerator) {
+        const escrowValidMarket = escrowStatus.find(status => status.type === 'valid_escrow');
         const numerators = payoutNumerator.map(n => new Big(n));
+
         numerators.forEach((num, outcome) => {
             const token = tokens.find(token => token.outcomeId === outcome);
             if (!token) return;
@@ -21,9 +24,11 @@ export function calculatePayout(tokens: TokenViewModel[], payoutNumerator: strin
 
             claimable = claimable.add(payout);
         });
-    }
 
-    // TODO: Add escrow
+        if (escrowValidMarket) {
+            claimable = claimable.add(escrowValidMarket.total_amount);
+        }
+    }
 
     return claimable;
 }

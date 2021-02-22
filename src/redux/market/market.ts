@@ -1,3 +1,4 @@
+import { EscrowStatus } from '@fluxprotocol/amm-sdk/dist/models/EscrowStatus';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MarketViewModel } from '../../models/Market';
 import { PoolToken } from '../../models/PoolToken';
@@ -9,6 +10,7 @@ export type MarketState = Readonly<{
     resolutingMarkets: MarketViewModel[];
     pendingMarkets: MarketViewModel[];
     marketDetail?: MarketViewModel;
+    escrowStatus: EscrowStatus[];
     marketError?: string[];
     marketLoading: boolean;
     editLoading: boolean,
@@ -21,6 +23,7 @@ const initialState: MarketState = {
     editLoading: false,
     markets: [],
     pendingMarkets: [],
+    escrowStatus: [],
     resolutingMarkets: [],
     tokenWhitelist: [],
 };
@@ -114,6 +117,12 @@ const marketsSlice = createSlice({
                 poolTokenBalance: action.payload,
             });
         },
+        setMarketEscrowStatus(state: MarketState, action: PayloadAction<EscrowStatus[]>): MarketState {
+            return ({
+                ...state,
+                escrowStatus: action.payload,
+            });
+        },
     },
 });
 
@@ -131,6 +140,7 @@ export const {
     appendPendingMarkets,
     setPendingMarkets,
     appendResolutingMarkets,
+    setMarketEscrowStatus,
 } = marketsSlice.actions;
 
 export default marketsSlice.reducer;

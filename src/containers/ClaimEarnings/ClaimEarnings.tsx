@@ -1,3 +1,4 @@
+import { EscrowStatus } from '@fluxprotocol/amm-sdk/dist/models/EscrowStatus';
 import React, { ReactElement } from 'react';
 import Button from '../../components/Button';
 import { MarketViewModel } from '../../models/Market';
@@ -12,16 +13,17 @@ import { calculatePayout } from './services/calculatePayout';
 interface Props {
     poolToken?: PoolToken;
     market: MarketViewModel;
+    escrowStatus: EscrowStatus[];
     onClaim: () => void;
 }
 
 export default function ClaimFees({
     poolToken,
     market,
+    escrowStatus,
     onClaim,
 }: Props): ReactElement {
-    const hasBalance = market.outcomeTokens.some(token => token.balance !== '0');
-    // const payout = calculatePayout(market.outcomeTokens, market.payoutNumerator, poolToken);
+    const payout = calculatePayout(market.outcomeTokens, market.payoutNumerator, escrowStatus, poolToken);
 
     return (
         <div>
@@ -47,15 +49,18 @@ export default function ClaimFees({
                 </p>
             )}
 
-            {!market.claim && poolToken && (
+            {!market.claim && !market.invalid && (
                 <p>
-                    {trans('exitPool.label.feesEarned', {
-                        amount: formatCollateralToken(poolToken.fees, market.collateralToken.decimals, 8),
+                    {trans('market.claimEarnings.label.claimable', {
+                        tokenName: market.collateralToken.tokenSymbol,
                     })}
+                    <span className={s.claimable}>
+                        {formatCollateralToken(payout.toString(), market.collateralToken.decimals, 8)} {market.collateralToken.tokenSymbol}
+                    </span>
                 </p>
             )}
 
-            <Button disabled={!poolToken || !hasBalance || Boolean(market.claim)} onClick={onClaim} className={s.confirm}>
+            <Button disabled={Boolean(market.claim)} onClick={onClaim} className={s.confirm}>
                 {trans('market.action.claimEarnings')}
             </Button>
         </div>

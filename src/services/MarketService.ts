@@ -284,3 +284,8 @@ export async function getTokenWhiteListWithDefaultMetadata(): Promise<TokenMetad
     const whitelist = await sdk.getTokenWhitelist();
     return whitelist.map(token => createDefaultTokenMetadata(token.tokenId));
 }
+
+export async function getEscrowStatus(marketId: string, accountId: string) {
+    const sdk = await connectSdk();
+    return sdk.getEscrowStatus(marketId, accountId);
+}

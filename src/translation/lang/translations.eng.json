@@ -76,7 +76,8 @@
     "market.claimEarnings.alreadyClaimed": "You've already claimed :payout :tokenName",
     "market.claimEarnings.label.outcome": "Outcome",
     "market.claimEarnings.label.balance": "Your balance",
-    "market.claimEarnings.label.payout": "Market payout",
+    "market.claimEarnings.label.payout": "Payout per share",
+    "market.claimEarnings.label.claimable": "Claimable (including earned fees through liquidity providing and :tokenName hold in escrow):",
 
     "market.overview.rate": "Rate",
     "market.overview.inverseRate": "Inverse rate",

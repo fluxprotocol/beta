@@ -1,9 +1,9 @@
 import { TokenViewModel } from "../../models/TokenViewModel";
 import { getAccountInfo, getPoolBalanceForMarketByAccount } from "../../services/AccountService";
 import { getCollateralTokenMetadata } from "../../services/CollateralTokenService";
-import { createMarket, getMarketById, getMarketOutcomeTokens, getMarkets, getResolutingMarkets, getTokenWhiteListWithDefaultMetadata, MarketFilters, MarketFormValues } from "../../services/MarketService";
+import { createMarket, getEscrowStatus, getMarketById, getMarketOutcomeTokens, getMarkets, getResolutingMarkets, getTokenWhiteListWithDefaultMetadata, MarketFilters, MarketFormValues } from "../../services/MarketService";
 import { seedPool, exitPool, SeedPoolFormValues } from "../../services/PoolService";
-import { appendResolutingMarkets, appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance, setMarketDetailTokens, setTokenWhitelist, setPendingMarkets, appendPendingMarkets } from "./market";
+import { setMarketEscrowStatus, appendResolutingMarkets, appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance, setMarketDetailTokens, setTokenWhitelist, setPendingMarkets, appendPendingMarkets } from "./market";
 
 export function createNewMarket(values: MarketFormValues) {
     return async (dispatch: Function) => {
@@ -26,8 +26,10 @@ export function loadMarket(id: string) {
             dispatch(setMarketLoading(true));
             dispatch(setMarketDetail(undefined));
             dispatch(setMarketPoolTokenBalance(undefined));
+            dispatch(setMarketEscrowStatus([]));
 
             const market = await getMarketById(id);
+
 
             if (!market) {
                 dispatch(setMarketErrors(['Could not find market']));
@@ -37,7 +39,11 @@ export function loadMarket(id: string) {
             const account = await getAccountInfo();
 
             if (account) {
+                const escrowStatusRequest = getEscrowStatus(id, account.accountId);
                 const token = await getPoolBalanceForMarketByAccount(account.accountId, id);
+                const escrowStatus = await escrowStatusRequest;
+
+                dispatch(setMarketEscrowStatus(escrowStatus));
 
                 if (token) {
                     dispatch(setMarketPoolTokenBalance(token));
