@@ -28,7 +28,9 @@ export interface AccountTokenBalance {
 export async function getCollateralTokenBalance(tokenAccountId: string, accountId: string): Promise<string> {
     try {
         const sdk = await connectSdk();
-        return sdk.getTokenBalance(tokenAccountId, accountId);
+        const balance = await sdk.getTokenBalance(tokenAccountId, accountId);
+
+        return balance;
     } catch (error) {
         console.error('[getCollateralTokenBalance]', error);
         return '0';
