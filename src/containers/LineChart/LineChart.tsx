@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ReactElement } from 'react';
 import { PriceHistoryData } from '../../models/PriceHistoryData';
+import { useDarkmode } from '../../utils/darkmode';
 import generateLineChart, { generateChartData } from './utils/generateLineChart';
 
 interface Props {
@@ -12,6 +13,7 @@ export default function LineChart({
     pricesHistory,
 }: Props): ReactElement {
     const canvas = useRef<HTMLCanvasElement>(null);
+    const isDarkmodeActive = useDarkmode();
     const chart = useRef<Chart | null>(null);
 
     useEffect(() => {
@@ -20,14 +22,14 @@ export default function LineChart({
         }
 
         chart.current = generateLineChart(canvas.current);
-    }, [canvas]);
+    }, [canvas, isDarkmodeActive]);
 
     useEffect(() => {
         if (!chart.current) return;
 
         chart.current.data = generateChartData(pricesHistory);
         chart.current.update();
-    }, [chart, pricesHistory]);
+    }, [chart, pricesHistory, isDarkmodeActive]);
 
     return (
         <canvas ref={canvas} />

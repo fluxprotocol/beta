@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { useParams } from "react-router";
 import { NODE_ENV } from "../../config";
+import { useDarkmode } from "../darkmode";
 
 export default function useDisqus(identifier: string, title?: string) {
     const params = useParams();
+    const isDarkmodeActive = useDarkmode();
 
     useEffect(() => {
         if (!title) return;
@@ -28,7 +30,6 @@ export default function useDisqus(identifier: string, title?: string) {
                 config: window.disqus_config,
             });
         } catch (error) {
-            console.error('[useDisuq]', error);
         }
-    }, [params, identifier, title]);
+    }, [params, identifier, title, isDarkmodeActive]);
 }
