@@ -26,12 +26,19 @@ export default function LiquidityOverview({
         }
     });
     
-    data.push({
-        key: trans('market.label.lp') + trans('market.label.spaceTokens'),
-        value: FluxSdk.utils.formatToken(collateralIn.mul(new Big(market.poolTokenInfo.totalSupply)).div(maxBalance).toString(), market.collateralToken.decimals)
-    })
+    // Add % of total liquidity tokens
+    const prependData = [
+        {
+            key: trans('market.label.lp') + trans('market.label.spaceTokens'),
+            value: FluxSdk.utils.formatToken(collateralIn.mul(new Big(market.poolTokenInfo.totalSupply)).div(maxBalance).toString(), market.collateralToken.decimals)
+        },
+        {
+            key: trans('market.label.relativePoolShare'),
+            value: collateralIn.div(new Big(market.poolTokenInfo.totalSupply)).mul(new Big("100")).round(2).toString() + "%"
+        },
+    ]
 
     return (
-        <Overview data={data} header={trans('market.label.youReceive', {}, true)}/>
+        <Overview data={[...data, ...prependData]} header={trans('market.label.youReceive', {}, true)}/>
     )
 }
