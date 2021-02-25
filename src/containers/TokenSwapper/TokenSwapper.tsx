@@ -61,7 +61,7 @@ export default function TokenSwapper({
         setFormValues({
             ...formValues,
             formattedAmountIn: value,
-            amountIn: value ? toCollateralToken(value, collateralToken.decimals) : ""
+            amountIn: value ? toCollateralToken(value, collateralToken.decimals) : "0"
         });
     }
 
