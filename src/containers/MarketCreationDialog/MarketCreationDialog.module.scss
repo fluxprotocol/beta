@@ -25,3 +25,11 @@
     margin-bottom: 0.625rem;
     font-weight: bold;
 }
+
+.marketType {
+    text-transform: unset !important;
+    &--selected {
+        color: var(--c-white) !important;
+        background-color: var(--c-primary) !important;
+    }
+}

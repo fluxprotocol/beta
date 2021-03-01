@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { DEFAULT_FEE } from '../config';
 
 import { FetchResult, FetchResultType } from '../models/FetchResult';
-import { GraphMarketResponse, MarketCategory, MarketViewModel, transformToMarketViewModel } from '../models/Market';
+import { GraphMarketResponse, MarketCategory, MarketType, MarketViewModel, transformToMarketViewModel } from '../models/Market';
 import { TokenMetadata } from '../models/TokenMetadata';
 import { TokenViewModel, transformToMainTokenViewModel, transformToTokenViewModels } from '../models/TokenViewModel';
 import { UserBalance } from '../models/UserBalance';
@@ -13,8 +13,8 @@ import { createDefaultTokenMetadata, getCollateralTokenMetadata } from './Collat
 import createProtocolContract from './contracts/ProtocolContract';
 import { graphqlClient } from './GraphQLService';
 import { connectSdk } from './WalletService';
-
 export interface MarketFormValues {
+    type: MarketType;
     isCategoricalMarket: boolean;
     categories: MarketCategory[];
     resolutionDate: Date;
@@ -22,6 +22,8 @@ export interface MarketFormValues {
     outcomes: string[];
     extraInfo: string;
     collateralTokenId: string;
+    lowerBound: Big;
+    upperBound: Big;
 }
 
 export async function createMarket(values: MarketFormValues): Promise<FetchResult<any, string>> {

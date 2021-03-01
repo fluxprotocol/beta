@@ -119,12 +119,16 @@
     "marketCreation.label.marketType": "Choose a market type",
     "marketCreation.label.binary": "Binary",
     "marketCreation.label.categorical": "Categorical",
+    "marketCreation.label.scalar": "Scalar",
     "marketCreation.label.resolutionDate": "When does this market end?",
     "marketCreation.label.helperText.resolutionDate": "Resolution date is in UTC time",
     "marketCreation.label.outcomes": "Outcomes",
     "marketCreation.label.outcome": "Outcome :number",
     "marketCreation.label.addMoreOutcomes": "Add more outcomes",
-    "marketCreation.label.collaterapoken": "Collateral token",
+    "marketCreation.label.collateralToken": "Collateral token",
+    "marketCreation.label.scalarUpperBound": "Upper bound",
+    "marketCreation.label.scalarLowerBound": "Lower bound",
+    "marketCreation.errors.upperBoundLessThanLowerBound": "Upperbound should be higher than lowerbound",
 
     "marketClosed.description": "This market has ended. Resolution is currently in progress, come back later to claim your earnings.",
 

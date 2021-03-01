@@ -1,6 +1,14 @@
 .root {
     width: 100%;
-    background-color: var(--c-primary-dark);
+
+    :global(.MuiInputBase-root) {
+        background-color: var(--c-primary-dark);
+    }
+
+    :global(.MuiFormHelperText-root) {
+        font-weight: bold;
+        color: var(--c-text);
+    }
 
     textarea, input {
         color: var(--c-text);

@@ -15,6 +15,12 @@ export enum MarketCategory {
     Beer = "beer"
 }
 
+export enum MarketType {
+    Binary = 'binary',
+    Categorical = 'categorical',
+    Scalar = 'scalar',
+}
+
 export interface GraphMarketResponse {
     creation_date: string | null;
     description: string;
