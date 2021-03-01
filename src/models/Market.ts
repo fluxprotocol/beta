@@ -65,6 +65,7 @@ export interface MarketViewModel {
     invalid: boolean;
     payoutNumerator: string[] | null;
     claim?: ClaimViewModel;
+    type: MarketType;
     poolTokenInfo: {
         totalSupply: string;
     };
@@ -81,6 +82,7 @@ export async function transformToMarketViewModel(
 
     return {
         id: graphResponse.id,
+        type: MarketType.Scalar,
         category: graphResponse.categories || [],
         creationDate: graphResponse.creation_date ? new Date(Number(graphResponse.creation_date)) : undefined,
         description: graphResponse.description,
@@ -98,6 +100,7 @@ export async function transformToMarketViewModel(
             graphResponse.outcome_tags,
             graphResponse.pool.pool_balances as any,
             userBalances,
+            MarketType.Categorical,
             false,
             collateralToken,
         ),

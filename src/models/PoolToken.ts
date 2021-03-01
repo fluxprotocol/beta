@@ -64,5 +64,6 @@ export function transformPoolTokenToTokenViewModel(pooltoken: PoolToken): TokenV
         tokenSymbol: '',
         weight: 0,
         isCollateralToken: false,
+        bound: new Big(0),
     };
 }

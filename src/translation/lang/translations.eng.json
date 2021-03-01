@@ -16,6 +16,9 @@
     "pages.resoluteOverview": "Finalized",
     "pages.pendingOverview": "Pending",
 
+    "market.outcomes.yes": "YES",
+    "market.outcomes.no": "NO",
+
     "menu.logout": "Logout",
     "menu.profile": "Positions",
     "menu.wrapNear": "Wrap NEAR",
@@ -147,6 +150,8 @@
     "feesEarned.table.balance": "Pool Token Balance",
     "feesEarned.table.feesEarned": "Fees Earned",
 
+    "seedScalarMarket.explanation": "Seed the pool with :tokenName, pick what the initial value is.",
+
     "seedPool.wrongUser.title": "Only the creator of the market can seed the pool.",
     "seedPool.wrongUser.description": "Please come back later. If you are the creator, please login as :account to seed the pool.",
     "seedPool.explanation": "Seed the pool with :tokenName, pick how heavy each outcome is. Together it should be 100%.",
@@ -179,7 +184,7 @@
     "exitPool.label.youInsert": "You Insert",
     "exitPool.action.exitPool": "Remove Liquidity",
     "exitPool.label.feesEarned": "Fees Earned: :amount :tokenSymbol",
-    "exitPool.validation.amountIn.tooHigh": "Amount an't exceed balance",
+    "exitPool.validation.amountIn.tooHigh": "Amount can't exceed balance",
     "exitPool.validation.amountIn.negative": "Amount can't be zero or lower",
 
     "userbalances.title": "Balances",

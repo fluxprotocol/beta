@@ -27,6 +27,8 @@ import NoWrappedNearCardConnector from '../../connectors/NoWrappedNearCardConnec
 import { isEligibleForRedeeming } from '../../services/MarketService';
 import RedeemConnector from '../../connectors/RedeemConnector';
 import NotInWhitelistCard from '../../containers/NotInWhitelistCard';
+import { MarketType } from '../../models/Market';
+import SeedScalarMarketConnector from '../../connectors/SeedScalarMarketConnector';
 
 interface RouterParams {
     marketId: string;
@@ -90,7 +92,7 @@ export default function MarketPage() {
                             }, {
                                 element: <SeedPoolConnector key="seedpool" />,
                                 label: trans('market.label.seedPool'),
-                                show: account !== null && market?.finalized === false && !isExpired && !hasMarketLiquidity && account.canUseApp,
+                                show: account !== null && market?.type !== MarketType.Scalar && market?.finalized === false && !isExpired && !hasMarketLiquidity && account.canUseApp,
                                 id: '3',
                             }, {
                                 element: <MarketClosed key="marketClosed" />,
@@ -112,6 +114,11 @@ export default function MarketPage() {
                                 label: trans('market.label.redeem'),
                                 show: account !== null && hasMarketLiquidity && market?.finalized === false && canRedeem && account.canUseApp,
                                 id: '7',
+                            }, {
+                                element: <SeedScalarMarketConnector key="seedScalar" />,
+                                label: trans('market.label.seedPool'),
+                                show: account !== null && market?.type === MarketType.Scalar && market?.finalized === false && !isExpired && !hasMarketLiquidity,
+                                id: '8',
                             }, {
                                 element: <NotInWhitelistCard key="notinwhitelist" />,
                                 label: trans('market.label.notInWhitelist'),

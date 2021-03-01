@@ -1,9 +1,16 @@
+import Big from "big.js";
 import { calcDistributionHint } from "../utils/calcDistributionHint";
 import createProtocolContract from "./contracts/ProtocolContract";
 import createTokenContract from "./contracts/TokenContract";
 
 export interface SeedPoolFormValues {
     outcomePercentages: string[];
+    mainTokenInput: string;
+    mainTokenInputFormatted: string;
+}
+
+export interface SeedScalarMarketFormValues {
+    initialValue: Big;
     mainTokenInput: string;
     mainTokenInputFormatted: string;
 }

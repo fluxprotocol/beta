@@ -4,6 +4,7 @@ import { PoolBalanceGraphData, transformToPoolBalanceViewModel } from "./PoolBal
 import { formatCollateralToken, getCollateralTokenBalance, getCollateralTokenMetadata, getCollateralTokenPrice } from '../services/CollateralTokenService';
 import { UserBalance } from "./UserBalance";
 import emojiSlice from "../utils/emojiSlice";
+import { MarketType } from "./Market";
 
 export interface TokenViewModel {
     tokenImage?: string;
@@ -23,6 +24,7 @@ export interface TokenViewModel {
     odds: Big;
     decimals: number;
     isCollateralToken: boolean;
+    bound: Big;
 }
 
 /**
@@ -64,6 +66,7 @@ export function transformToTokenViewModels(
     tags: string[],
     poolBalanceData: PoolBalanceGraphData[] = [],
     userBalances: UserBalance[],
+    type: MarketType,
     isCollateralToken = false,
     collateralToken?: TokenViewModel,
 ): TokenViewModel[] {
@@ -89,6 +92,7 @@ export function transformToTokenViewModels(
             decimals: collateralToken?.decimals ?? 18,
             odds: poolBalance?.odds || new Big(0),
             isCollateralToken,
+            bound: type === MarketType.Scalar ? new Big(outcome) : new Big(0),
         };
     });
 }
@@ -135,5 +139,6 @@ export async function transformToMainTokenViewModel(
         odds: new Big(0),
         isCollateralToken: true,
         tokenImage: metadata.tokenImage,
+        bound: new Big(0),
     };
 }
