@@ -33,6 +33,7 @@ export interface GraphMarketResponse {
     categories: string[];
     payout_numerator?: string[] | null;
     claimed_earnings?: GraphClaimResponse;
+    is_scalar?: boolean;
     pool: {
         owner: string;
         collateral_token_id: string;
@@ -79,10 +80,11 @@ export async function transformToMarketViewModel(
     const tokensInfo = graphResponse.pool.tokens_info || [];
     const poolTokenInfo = tokensInfo.find(info => info.is_pool_token);
     const payoutNumerator = graphResponse.payout_numerator ? graphResponse.payout_numerator : null;
+    const marketType = graphResponse.is_scalar ? MarketType.Scalar : MarketType.Categorical;
 
     return {
         id: graphResponse.id,
-        type: MarketType.Scalar,
+        type: marketType,
         category: graphResponse.categories || [],
         creationDate: graphResponse.creation_date ? new Date(Number(graphResponse.creation_date)) : undefined,
         description: graphResponse.description,
@@ -100,7 +102,7 @@ export async function transformToMarketViewModel(
             graphResponse.outcome_tags,
             graphResponse.pool.pool_balances as any,
             userBalances,
-            MarketType.Categorical,
+            marketType,
             false,
             collateralToken,
         ),

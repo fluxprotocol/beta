@@ -1,3 +1,4 @@
+import Skeleton from '@material-ui/lab/Skeleton';
 import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ANALYTICS_STORAGE_KEY } from '../../config';
@@ -14,7 +15,7 @@ interface Props {
 
 export default function MarketStatisticsConnector({
     className = '',
-}: Props): ReactElement {
+}: Props) {
     const pricesHistory = useSelector((store: Reducers) => store.priceHistory.pricesHistory);
     const market = useSelector((store: Reducers) => store.market.marketDetail);
     const previousMarket = usePrevious(market);
@@ -56,12 +57,17 @@ export default function MarketStatisticsConnector({
         }, PRICE_HISTORY_INTERVAL_MS);
     }, [market, dispatch]);
 
+    if (!market) {
+        return <Skeleton height={500} />;
+    }
+
     return (
         <MarketStatistics
             pricesHistory={pricesHistory}
             className={className}
             onPeriodChange={handlePeriodChange}
             period={period || undefined}
+            market={market}
         />
     );
 }

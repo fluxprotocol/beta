@@ -7,16 +7,20 @@ import { PriceHistoryData } from '../../models/PriceHistoryData';
 import ToggleButtons from '../../components/ToggleButtons';
 import trans from '../../translation/trans';
 import { Period } from '../../services/PricesHistoryService';
+import { MarketType, MarketViewModel } from '../../models/Market';
+import market from '../../redux/market/market';
 
 interface Props {
     className?: string;
     period?: Period;
+    market: MarketViewModel;
     pricesHistory: PriceHistoryData[];
     onPeriodChange: (period: Period) => void;
 }
 
 export default function MarketStatistics({
     pricesHistory,
+    market,
     onPeriodChange,
     period = Period.All,
     className = '',
@@ -59,7 +63,7 @@ export default function MarketStatistics({
                     ]}
                 />
             </div>
-            <LineChart pricesHistory={pricesHistory} />
+            <LineChart pricesHistory={pricesHistory} isScalar={market.type === MarketType.Scalar} />
         </div>
     )
 }

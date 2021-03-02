@@ -18,6 +18,8 @@
 
     "market.outcomes.yes": "YES",
     "market.outcomes.no": "NO",
+    "market.outcomes.long": "LONG",
+    "market.outcomes.short": "SHORT",
 
     "menu.logout": "Logout",
     "menu.profile": "Positions",
@@ -151,6 +153,12 @@
     "feesEarned.table.feesEarned": "Fees Earned",
 
     "seedScalarMarket.explanation": "Seed the pool with :tokenName, pick what the initial value is.",
+    "seedScalarMarket.label.initialValue": "Set initial value",
+    "seedScalarMarket.label.upperBound": "Upperbound: :amount",
+    "seedScalarMarket.label.lowerBound": "Lowerbound: :amount",
+    "seedScalarMarket.errors.initialValue.ltLowerBound": "Value shouldn't be less than lower bound",
+    "seedScalarMarket.errors.initialValue.gtUpperBound": "Value shouldn't be greater than upper bound",
+    "seedScalarMarket.action.submit": "Seed pool",
 
     "seedPool.wrongUser.title": "Only the creator of the market can seed the pool.",
     "seedPool.wrongUser.description": "Please come back later. If you are the creator, please login as :account to seed the pool.",

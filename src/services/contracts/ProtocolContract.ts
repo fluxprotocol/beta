@@ -22,7 +22,8 @@ class ProtocolContract {
         endDate: Date,
         swapFee: string,
         collateralTokenId: string,
-        extraInfo: string = '',
+        extraInfo: string,
+        isScalar: boolean,
     ): Promise<void> {
         // Each outcome is stored seperatly in near requiring more storage
         const storageRequired = STORAGE_BASE.mul(new BN(outcomes.length));
@@ -37,6 +38,7 @@ class ProtocolContract {
             collateral_token_id: collateralTokenId,
             categories,
             swap_fee: swapFee,
+            is_scalar: isScalar,
         }, MAX_GAS, storageRequired);
     }
 

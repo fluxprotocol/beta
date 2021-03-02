@@ -1,31 +1,35 @@
 import React, { ReactElement } from 'react';
 import classnames from 'classnames';
 
-import { getColorForOutcome } from '../../utils/getColorForOutcome';
+import { TokenViewModel } from '../../models/TokenViewModel';
 
 import s from './TokenWeightsBar.module.scss';
 
 interface Props {
-    weights: number[];
+    tokens: TokenViewModel[];
     className?: string;
 }
 
 export default function TokenWeightsBar({
-    weights,
+    tokens,
     className = '',
 }: Props): ReactElement {
     return (
         <div className={classnames(s['token-weights-bar'], className)}>
-            {weights.map((weight, index) => (
-                <span
-                    key={index}
-                    className={s['token-weights-bar__weight']}
-                    style={{
-                        width: `${weight}%`,
-                        backgroundColor: `var(${getColorForOutcome(index)})`,
-                    }}
-                />
-            ))}
+            {tokens.map((token, index) => {
+                const weight = token.odds.mul(100);
+
+                return (
+                    <span
+                        key={index}
+                        className={s['token-weights-bar__weight']}
+                        style={{
+                            width: `${weight.toString()}%`,
+                            backgroundColor: `var(${token.colorVar})`,
+                        }}
+                    />
+                );
+            })}
         </div>
     );
 }

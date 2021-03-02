@@ -3,7 +3,7 @@ import { PriceHistoryData } from '../../../models/PriceHistoryData';
 import { getColorForOutcome } from '../../../utils/getColorForOutcome';
 import getCssVariableValue from '../../../utils/getCssVariableValue';
 
-export function generateChartData(priceHistoryData: PriceHistoryData[]): Chart.ChartData {
+export function generateChartData(priceHistoryData: PriceHistoryData[], isScalar: boolean): Chart.ChartData {
     const outcomeData: Map<number, number[]> = new Map();
 
     priceHistoryData.forEach((historyData) => {
@@ -25,7 +25,7 @@ export function generateChartData(priceHistoryData: PriceHistoryData[]): Chart.C
             data,
             fill: false,
             borderWidth: 2,
-            borderColor: `${getCssVariableValue(getColorForOutcome(outcomeId))}`,
+            borderColor: `${getCssVariableValue(getColorForOutcome(outcomeId, isScalar))}`,
             cubicInterpolationMode: 'monotone',
         });
 
@@ -34,7 +34,7 @@ export function generateChartData(priceHistoryData: PriceHistoryData[]): Chart.C
             data: new Array(data.length).fill(data[data.length - 1]),
             fill: false,
             borderWidth: 1,
-            borderColor: `${getCssVariableValue(getColorForOutcome(outcomeId))}`,
+            borderColor: `${getCssVariableValue(getColorForOutcome(outcomeId, isScalar))}`,
             borderDash: [2, 5],
             cubicInterpolationMode: 'monotone',
             hidden: false,

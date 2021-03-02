@@ -26,6 +26,7 @@ export async function getNearToken(): Promise<TokenViewModel> {
         balanceFormatted: '0',
         tokenImage: nearIcon,
         bound: new Big(0),
+        colorVar: '',
     }
 
     try {
@@ -62,6 +63,7 @@ export async function getWrappedNearToken(): Promise<TokenViewModel> {
         balance: '0',
         balanceFormatted: '0',
         bound: new Big(0),
+        colorVar: '',
     }
 
     try {

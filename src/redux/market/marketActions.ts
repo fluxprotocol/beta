@@ -1,8 +1,9 @@
+import { MarketViewModel } from "../../models/Market";
 import { TokenViewModel } from "../../models/TokenViewModel";
 import { getAccountInfo, getPoolBalanceForMarketByAccount } from "../../services/AccountService";
 import { getCollateralTokenMetadata } from "../../services/CollateralTokenService";
 import { createMarket, getEscrowStatus, getMarketById, getMarketOutcomeTokens, getMarkets, getResolutingMarkets, getTokenWhiteListWithDefaultMetadata, MarketFilters, MarketFormValues } from "../../services/MarketService";
-import { seedPool, exitPool, SeedPoolFormValues } from "../../services/PoolService";
+import { seedPool, exitPool, SeedPoolFormValues, seedScalarMarket, SeedScalarMarketFormValues } from "../../services/PoolService";
 import { setMarketEscrowStatus, appendResolutingMarkets, appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance, setMarketDetailTokens, setTokenWhitelist, setPendingMarkets, appendPendingMarkets } from "./market";
 
 export function createNewMarket(values: MarketFormValues) {
@@ -144,6 +145,12 @@ export function fetchResolutingMarkets(filters: MarketFilters, append?: boolean)
 export function seedPoolAction(marketId: string, tokenId: string, values: SeedPoolFormValues) {
     return async (dispatch: Function) => {
         await seedPool(marketId, tokenId, values);
+    }
+}
+
+export function seedScalarMarketAction(market: MarketViewModel, values: SeedScalarMarketFormValues) {
+    return async (dispatch: Function) => {
+        await seedScalarMarket(market, values);
     }
 }
 

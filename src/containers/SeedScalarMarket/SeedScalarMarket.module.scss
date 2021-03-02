@@ -1,0 +1,31 @@
+.inputWrapper {
+    margin-bottom: 1rem;
+}
+
+.tokenTitles {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.balanceButton {
+    border: none;
+    background: none;
+    color: var(--c-text);
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.bounds {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.confirmButton {
+    height: 3.75rem;
+    width: 100%;
+    font-size: 1.25rem;
+    font-weight: bold;
+    background-color: var(--c-confirm-button);
+    margin-bottom: 1rem;
+}

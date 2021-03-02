@@ -8,8 +8,6 @@ import trans from '../../translation/trans';
 import Token from '../../components/Token';
 import NonLinkButton from '../../components/NonLinkButton';
 import TokenDropdown from './components/TokenDropdown/TokenDropdown';
-import Error from '../../components/Error';
-import { getColorForOutcome } from '../../utils/getColorForOutcome';
 
 interface Props {
     className?: string;
@@ -67,7 +65,7 @@ export default function TokenSelect({
                     <Token
                         tokenName={selectedToken.tokenName}
                         tokenImage={selectedToken.tokenImage}
-                        colorVar={getColorForOutcome(selectedToken.outcomeId)}
+                        colorVar={selectedToken.colorVar}
                         className={s['token-select__token-icon']}
                     />
 

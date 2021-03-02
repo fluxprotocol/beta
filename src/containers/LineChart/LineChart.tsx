@@ -6,11 +6,13 @@ import generateLineChart, { generateChartData } from './utils/generateLineChart'
 
 interface Props {
     pricesHistory: PriceHistoryData[];
+    isScalar: boolean;
 }
 
 
 export default function LineChart({
     pricesHistory,
+    isScalar,
 }: Props): ReactElement {
     const canvas = useRef<HTMLCanvasElement>(null);
     const isDarkmodeActive = useDarkmode();
@@ -27,9 +29,9 @@ export default function LineChart({
     useEffect(() => {
         if (!chart.current) return;
 
-        chart.current.data = generateChartData(pricesHistory);
+        chart.current.data = generateChartData(pricesHistory, isScalar);
         chart.current.update();
-    }, [chart, pricesHistory, isDarkmodeActive]);
+    }, [chart, pricesHistory, isDarkmodeActive, isScalar]);
 
     return (
         <canvas ref={canvas} />

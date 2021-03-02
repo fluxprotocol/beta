@@ -1,9 +1,9 @@
 import { gql } from '@apollo/client';
+import FluxSdk from '@fluxprotocol/amm-sdk';
 import Big from 'big.js';
 import { format } from 'date-fns';
 import { DEFAULT_FEE } from '../config';
 
-import { FetchResult, FetchResultType } from '../models/FetchResult';
 import { GraphMarketResponse, MarketCategory, MarketType, MarketViewModel, transformToMarketViewModel } from '../models/Market';
 import { TokenMetadata } from '../models/TokenMetadata';
 import { TokenViewModel, transformToMainTokenViewModel, transformToTokenViewModels } from '../models/TokenViewModel';
@@ -14,6 +14,7 @@ import { createDefaultTokenMetadata, getCollateralTokenMetadata } from './Collat
 import createProtocolContract from './contracts/ProtocolContract';
 import { graphqlClient } from './GraphQLService';
 import { connectSdk } from './WalletService';
+
 export interface MarketFormValues {
     type: MarketType;
     isCategoricalMarket: boolean;
@@ -59,7 +60,8 @@ export async function createMarket(values: MarketFormValues): Promise<void> {
             values.resolutionDate,
             new Big(`1e${tokenMetadata.decimals}`).div(formattedFee).toString(),
             values.collateralTokenId,
-            values.extraInfo
+            values.extraInfo,
+            values.type === MarketType.Scalar,
         );
     } catch (error) {
         console.error('[createMarket]', error);
@@ -99,6 +101,7 @@ export async function getMarketById(marketId: string): Promise<MarketViewModel |
                         categories
                         creation_date
                         payout_numerator
+                        is_scalar
                         claimed_earnings(accountId: $accountId) {
                             payout
                         }
@@ -162,6 +165,7 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
                             id
                             volume
                             categories
+                            is_scalar
                         }
                         total
                     }
@@ -205,6 +209,7 @@ export async function getMarketOutcomeTokens(marketId: string, collateralToken?:
                             }
                         }
                         outcome_tags
+                        is_scalar
                     }
                 }
             `,
@@ -222,13 +227,11 @@ export async function getMarketOutcomeTokens(marketId: string, collateralToken?:
             balances = await getBalancesForMarketByAccount(accountId, marketId);
         }
 
-        const isScalar = false;
-
         return transformToTokenViewModels(
             market.outcome_tags,
             market.pool.pool_balances as any,
             balances,
-            isScalar ? MarketType.Scalar : MarketType.Categorical,
+            market.is_scalar ? MarketType.Scalar : MarketType.Categorical,
             false,
             collateralToken,
         );
@@ -302,4 +305,13 @@ export async function getTokenWhiteListWithDefaultMetadata(): Promise<TokenMetad
 export async function getEscrowStatus(marketId: string, accountId: string) {
     const sdk = await connectSdk();
     return sdk.getEscrowStatus(marketId, accountId);
+}
+
+export function getScalarBounds(bounds: Big[]): { lowerBound: Big, upperBound: Big } {
+    const sortedBounds = FluxSdk.utils.sortBig(bounds);
+
+    return {
+        lowerBound: sortedBounds[0],
+        upperBound: sortedBounds[sortedBounds.length - 1],
+    }
 }

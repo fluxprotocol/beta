@@ -2,7 +2,6 @@ import React, { ReactElement, useMemo, useRef, useState } from 'react';
 
 import DateTimePicker from '../../components/DateTimePicker';
 import Label from '../../components/Label';
-import OptionSwitch from '../../components/OptionSwitch';
 import Tag from '../../components/Tag';
 import TextInput from '../../components/TextInput';
 import Dialog from '../../compositions/Dialog';
@@ -120,8 +119,6 @@ export default function MarketCreationDialog({
     }
 
     const errors = validateMarketFormValues(formValues);
-
-    console.log('[] errors -> ', errors);
 
     return (
         <Dialog open={open} title="" canSubmit={errors.canSubmit} onRequestClose={onRequestClose} onSubmitClick={handleFormSubmit}>

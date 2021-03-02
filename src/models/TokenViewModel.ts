@@ -5,6 +5,9 @@ import { formatCollateralToken, getCollateralTokenBalance, getCollateralTokenMet
 import { UserBalance } from "./UserBalance";
 import emojiSlice from "../utils/emojiSlice";
 import { MarketType } from "./Market";
+import { getScalarBounds } from "../services/MarketService";
+import trans from "../translation/trans";
+import { getColorForOutcome } from "../utils/getColorForOutcome";
 
 export interface TokenViewModel {
     tokenImage?: string;
@@ -25,6 +28,7 @@ export interface TokenViewModel {
     decimals: number;
     isCollateralToken: boolean;
     bound: Big;
+    colorVar: string;
 }
 
 /**
@@ -71,10 +75,13 @@ export function transformToTokenViewModels(
     collateralToken?: TokenViewModel,
 ): TokenViewModel[] {
     const poolBalances = transformToPoolBalanceViewModel(poolBalanceData, tags);
+    const bounds = type === MarketType.Scalar ? getScalarBounds(tags.map(t => new Big(t))) : undefined;
 
     return tags.map((outcome, outcomeId) => {
         const poolBalance = poolBalances.find(poolBalance => poolBalance.outcomeId === outcomeId);
         const userBalance = userBalances.find(userBalance => userBalance.outcomeId === outcomeId);
+        const bound = type === MarketType.Scalar ? new Big(outcome) : new Big(0);
+        const scalarName = bounds?.lowerBound.eq(bound) ? trans('market.outcomes.short') : trans('market.outcomes.long');
 
         return {
             balance: userBalance?.balance || '0',
@@ -84,7 +91,7 @@ export function transformToTokenViewModels(
             priceSymbol: collateralToken?.tokenSymbol || '$',
             priceSymbolPosition: 'right',
             tokenSymbol: generateTokenName(outcome),
-            tokenName: outcome,
+            tokenName: type === MarketType.Scalar ? scalarName : outcome,
             poolBalance: poolBalance?.poolBalance || "0",
             poolWeight: poolBalance?.poolWeight || new Big(0),
             weight: poolBalance?.weight || 0,
@@ -92,7 +99,8 @@ export function transformToTokenViewModels(
             decimals: collateralToken?.decimals ?? 18,
             odds: poolBalance?.odds || new Big(0),
             isCollateralToken,
-            bound: type === MarketType.Scalar ? new Big(outcome) : new Big(0),
+            bound,
+            colorVar: getColorForOutcome(outcomeId, type === MarketType.Scalar),
         };
     });
 }
@@ -140,5 +148,6 @@ export async function transformToMainTokenViewModel(
         isCollateralToken: true,
         tokenImage: metadata.tokenImage,
         bound: new Big(0),
+        colorVar: '',
     };
 }

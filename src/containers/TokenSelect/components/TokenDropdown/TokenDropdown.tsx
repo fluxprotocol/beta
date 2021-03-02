@@ -2,7 +2,6 @@ import React from 'react';
 import Token from '../../../../components/Token';
 import { TokenViewModel } from '../../../../models/TokenViewModel';
 import trans from '../../../../translation/trans';
-import { getColorForOutcome } from '../../../../utils/getColorForOutcome';
 
 import s from './TokenDropdown.module.scss';
 
@@ -26,7 +25,7 @@ export default function TokenDropdown({
                     {tokens.map((token) => (
                         <button key={token.tokenName} onClick={() => onTokenClick(token)} className={s['token-dropdown__token']}>
                             <div className={s['token-dropdown__token-info']}>
-                                <Token colorVar={getColorForOutcome(token.outcomeId)} tokenName={token.tokenName} className={s['token-dropdown__token-icon']} />
+                                <Token colorVar={token.colorVar} tokenName={token.tokenName} className={s['token-dropdown__token-icon']} />
                                 <span>{token.tokenName}</span>
                             </div>
                             <div className={s['token-dropdown__token-balance']}>

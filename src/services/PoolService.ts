@@ -1,7 +1,11 @@
+import FluxSdk from "@fluxprotocol/amm-sdk";
 import Big from "big.js";
+import { MarketViewModel } from "../models/Market";
 import { calcDistributionHint } from "../utils/calcDistributionHint";
 import createProtocolContract from "./contracts/ProtocolContract";
 import createTokenContract from "./contracts/TokenContract";
+import { getScalarBounds } from "./MarketService";
+import { connectSdk } from "./WalletService";
 
 export interface SeedPoolFormValues {
     outcomePercentages: string[];
@@ -24,6 +28,14 @@ export async function seedPool(marketId: string, tokenId: string, values: SeedPo
         values.mainTokenInput,
         weights.map(outcome => outcome.toString())
     );
+}
+
+export async function seedScalarMarket(market: MarketViewModel, values: SeedScalarMarketFormValues) {
+    const token = await createTokenContract(market.collateralTokenId);
+    const bounds = getScalarBounds(market.outcomeTokens.map(token => token.bound));
+    const weightsInPercentages = FluxSdk.utils.calcScalarDistributionPercentages(values.initialValue, bounds.lowerBound, bounds.upperBound);
+    const weights = FluxSdk.utils.calcDistributionHint(weightsInPercentages).map(v => v.toString());
+    return token.addLiquidity(market.id, values.mainTokenInput, weights);
 }
 
 export async function joinPool(marketId: string, amountIn: string, tokenId: string) {

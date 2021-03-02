@@ -2,7 +2,6 @@ import React from 'react';
 import { MarketViewModel } from '../../../../models/Market';
 import { formatCollateralToken } from '../../../../services/CollateralTokenService';
 import trans from '../../../../translation/trans';
-import { getColorForOutcome } from '../../../../utils/getColorForOutcome';
 
 import s from './FinalizedMarketOutcomes.module.scss';
 
@@ -28,11 +27,10 @@ export default function FinalizedMarketOutcomes({
                 <tbody>
                     {payoutNumerator.map((numerator, index) => {
                         const outcome = market.outcomeTokens.find(token => token.outcomeId === index);
-                        const color = getColorForOutcome(index);
 
                         return (
                             <tr key={outcome?.outcomeId}>
-                                <td style={{ color: `var(${color})` }}>{outcome?.tokenName}</td>
+                                <td style={{ color: `var(${outcome?.colorVar})` }}>{outcome?.tokenName}</td>
                                 <td>{formatCollateralToken(numerator, market.collateralToken.decimals)} {market.collateralToken.tokenSymbol}</td>
                                 <td>{outcome?.balanceFormatted} {outcome?.tokenSymbol}</td>
                             </tr>
