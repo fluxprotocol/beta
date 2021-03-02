@@ -3,6 +3,13 @@
     text-align: center;
 }
 
+.rangeWrapper {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
 .estimateWrapper {
     display: flex;
     justify-content: space-between;

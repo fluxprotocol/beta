@@ -63,7 +63,7 @@ export default function MarketStatistics({
                     ]}
                 />
             </div>
-            <LineChart pricesHistory={pricesHistory} isScalar={market.type === MarketType.Scalar} />
+            <LineChart pricesHistory={pricesHistory} market={market} />
         </div>
     )
 }

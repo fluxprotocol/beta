@@ -67,6 +67,7 @@
 
     "market.label.resolutionInfo": "Resolution Info",
     "market.label.totalVolume": "Total Volume",
+    "market.label.scalarRange": "Range",
     "market.label.currentEstimate": "Current Estimate",
     "market.label.opinion": "What does the market think?",
     "market.label.youPay": "You pay",

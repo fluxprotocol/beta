@@ -26,6 +26,10 @@ export default function ScalarOpinionCard({
             <h2 className={s.title}>
                 {trans('market.label.opinion')}
             </h2>
+            <div className={s.rangeWrapper}>
+                <span>{trans('market.label.scalarRange')}</span>
+                <span>{bounds.lowerBound.toString()} - {bounds.upperBound.toString()}</span>
+            </div>
             <div className={s.estimateWrapper}>
                 <span>{trans('market.label.currentEstimate')}</span>
                 <span>

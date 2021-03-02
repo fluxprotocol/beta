@@ -1,18 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import { ReactElement } from 'react';
+import { MarketViewModel } from '../../models/Market';
 import { PriceHistoryData } from '../../models/PriceHistoryData';
 import { useDarkmode } from '../../utils/darkmode';
 import generateLineChart, { generateChartData } from './utils/generateLineChart';
 
 interface Props {
     pricesHistory: PriceHistoryData[];
-    isScalar: boolean;
+    market: MarketViewModel;
 }
 
 
 export default function LineChart({
     pricesHistory,
-    isScalar,
+    market,
 }: Props): ReactElement {
     const canvas = useRef<HTMLCanvasElement>(null);
     const isDarkmodeActive = useDarkmode();
@@ -29,9 +30,9 @@ export default function LineChart({
     useEffect(() => {
         if (!chart.current) return;
 
-        chart.current.data = generateChartData(pricesHistory, isScalar);
+        chart.current.data = generateChartData(pricesHistory, market);
         chart.current.update();
-    }, [chart, pricesHistory, isDarkmodeActive, isScalar]);
+    }, [chart, pricesHistory, isDarkmodeActive, market]);
 
     return (
         <canvas ref={canvas} />

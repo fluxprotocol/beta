@@ -1,12 +1,27 @@
+import FluxSdk from '@fluxprotocol/amm-sdk';
+import Big from 'big.js';
 import Chart from 'chart.js';
+import { MarketType, MarketViewModel } from '../../../models/Market';
 import { PriceHistoryData } from '../../../models/PriceHistoryData';
+import { getScalarBounds } from '../../../services/MarketService';
 import { getColorForOutcome } from '../../../utils/getColorForOutcome';
 import getCssVariableValue from '../../../utils/getCssVariableValue';
 
-export function generateChartData(priceHistoryData: PriceHistoryData[], isScalar: boolean): Chart.ChartData {
+export function generateChartData(priceHistoryData: PriceHistoryData[], market: MarketViewModel): Chart.ChartData {
     const outcomeData: Map<number, number[]> = new Map();
+    const dataSets: Chart.ChartDataSets[] = [];
+    const isScalar = market.type === MarketType.Scalar;
+    const bounds = getScalarBounds(market.outcomeTokens.map(t => t.bound));
 
     priceHistoryData.forEach((historyData) => {
+        if (isScalar) {
+            const longTokenData = historyData.dataPoints.find(dp => dp.outcome === 1);
+            dataSets.push({
+                data: [FluxSdk.utils.calcScalarValue(bounds.lowerBound, bounds.upperBound, new Big(longTokenData?.price ?? '0')).toNumber()],
+                fill: false,
+            });
+        }
+
         historyData.dataPoints.forEach((outcomePriceData) => {
             const outcomeDataPoints = outcomeData.get(outcomePriceData.outcome);
 
@@ -17,8 +32,6 @@ export function generateChartData(priceHistoryData: PriceHistoryData[], isScalar
             }
         });
     });
-
-    const dataSets: Chart.ChartDataSets[] = [];
 
     outcomeData.forEach((data, outcomeId) => {
         dataSets.push({
