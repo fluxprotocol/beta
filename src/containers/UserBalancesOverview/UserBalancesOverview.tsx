@@ -10,7 +10,6 @@ import { routePaths } from '../../routes';
 import s from './UserBalancesOverview.module.scss';
 import Big from 'big.js';
 
-
 interface Props {
     balances: UserBalance[];
     className?: string;
@@ -34,6 +33,7 @@ export default function UserBalancesOverview({
                             <th>{trans('userbalances.table.balance')}</th>
                             <th>{trans('userbalances.table.price')}</th>
                             <th>{trans('userbalances.table.spent')}</th>
+                            <th>{trans('userbalances.table.profit')}</th>
                             <th>{trans('userbalances.table.status')}</th>
                         </tr>
                     </thead>
@@ -47,7 +47,13 @@ export default function UserBalancesOverview({
                                 }
                             };
 
-                            const price = new Big(info.spent).div(info.balance).round(2).toString();
+                            const price = new Big(info.spent).div(info.balance).round(2);
+                            const profitPercentage = price.gt("0") ? new Big(info.outcomePrice).minus(price).div(price).mul(100).round(2) : new Big("0");
+                            const profitLinkClassName = classnames(s.link, {
+                                [s.link__green]: price.gt("0"),
+                                [s.link__red]: price.lt("0")
+                            });
+                            
                             return (
                                 <tr className={s.tableRow} key={`${info.marketId}_${info.outcomeId}`}>
                                     <td className={s.marketDescription}>
@@ -67,12 +73,17 @@ export default function UserBalancesOverview({
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
-                                            {`${price} ${info.collateralTokenMetadata.symbol}`}
+                                            {`${price.toString()} ${info.collateralTokenMetadata.symbol}`}
                                         </Link>
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
                                             {formatCollateralToken(info.spent, info.collateralTokenMetadata.decimals)} {info.collateralTokenMetadata.symbol}
+                                        </Link>
+                                    </td>
+                                    <td >
+                                        <Link to={href} className={profitLinkClassName}>
+                                            {`${profitPercentage.toString()}%`}
                                         </Link>
                                     </td>
                                     <td>

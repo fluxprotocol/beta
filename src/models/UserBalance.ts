@@ -1,5 +1,7 @@
 import trans from "../translation/trans";
+import { MarketViewModel } from "./Market";
 import { TokenMetadata } from "./TokenMetadata";
+import { TokenViewModel } from "./TokenViewModel";
 
 export interface UserBalance {
     outcomeId: number;
@@ -10,6 +12,7 @@ export interface UserBalance {
     outcomeTag: string;
     collateralTokenMetadata: TokenMetadata;
     spent: string;
+    outcomePrice: number;
 }
 
 export interface GraphUserBalancesItem {
@@ -25,6 +28,10 @@ export interface GraphUserBalancesItem {
         payout_numerator: string[] | null;
         pool: {
             collateral_token_id: string;
+            pool_balances: {
+                outcome_id: number,
+                price: number
+            }[];
         }
     }
 }
@@ -62,5 +69,6 @@ export function transformToUserBalance(graphData: GraphUserBalancesItem, collate
         marketStatus: getMarketStatus(graphData.market),
         outcomeTag: graphData.market?.outcome_tags[graphData.outcome_id] || '',
         collateralTokenMetadata,
+        outcomePrice: graphData.market?.pool.pool_balances.find(pb => pb.outcome_id === graphData.outcome_id)?.price ?? 0,
     }
 }

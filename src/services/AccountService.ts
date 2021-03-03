@@ -78,6 +78,10 @@ export async function getAccountBalancesInfo(accountId: string): Promise<Account
 
                                 pool {
                                     collateral_token_id
+                                    pool_balances{
+                                        price
+                                        outcome_id
+                                    }
                                 }
                             }
                         }

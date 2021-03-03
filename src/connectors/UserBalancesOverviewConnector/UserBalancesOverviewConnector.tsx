@@ -16,3 +16,4 @@ export default function UserBalancesOverviewConnector({
         <UserBalancesOverview balances={balances} className={className} />
     );
 }
+ 

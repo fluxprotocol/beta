@@ -204,5 +204,6 @@
     "userbalances.table.outcome": "Outcome",
     "userbalances.table.balance": "Balance",
     "userbalances.table.status": "Status",
-    "userbalances.table.spent": "Spent"
+    "userbalances.table.spent": "Spent",
+    "userbalances.table.profit": "Profit"
 }
