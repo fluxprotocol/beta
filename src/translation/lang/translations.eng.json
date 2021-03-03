@@ -75,8 +75,12 @@
     "market.label.exitPool": "Remove Liquidity",
     "market.label.notLoggedIn": "Not Logged In",
     "market.label.spaceTokens": " tokens",
+    "market.label.notInWhitelist": "Not in whitelist",
     "market.label.lp": "LP",
     "market.label.relativePoolShare": "% Pool Tokens",
+
+    "notInWhitelist.title": "Not open for public",
+    "notInWhitelist.description": "Your account has not been whitelisted. Please reach out in order to join the closed BETA",
 
     "market.claimEarnings.validMarket": "This market was resoluted and marked as valid. You can claim your earnings below.",
     "market.claimEarnings.invalidMarket": "This market was marked as invalid, you can claim all your tokens back.",

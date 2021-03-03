@@ -3,8 +3,10 @@ import { Account } from "../models/Account";
 import { EarnedFeesGraphData, GraphAcountBalancesResponse, PoolToken, transformToPoolToken } from "../models/PoolToken";
 import { GraphUserBalanceResponse, transformToUserBalance, UserBalance } from "../models/UserBalance";
 import { getCollateralTokenMetadata } from "./CollateralTokenService";
+import createAuthContract from "./contracts/AuthContract";
 import { graphqlClient } from "./GraphQLService";
 import { connectSdk } from "./WalletService";
+import { ENABLE_WHITELIST } from "../config";
 
 export async function signUserIn() {
     const sdk = await connectSdk();
@@ -18,9 +20,18 @@ export async function getAccountInfo(): Promise<Account | null> {
         return null;
     }
 
+    let canUseApp = true;
+    const accountId = sdk.getAccountId() ?? '';
+
+    if (ENABLE_WHITELIST) {
+        const auth = await createAuthContract();
+        canUseApp = await auth.isAuthenticated(accountId);
+    }
+
     return {
-        accountId: sdk.getAccountId() ?? '',
+        accountId,
         balance: (await sdk.getNearBalance()).available,
+        canUseApp,
     };
 }
 

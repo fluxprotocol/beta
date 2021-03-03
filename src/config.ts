@@ -7,6 +7,8 @@ export const PROTOCOL_ACCOUNT_ID = process.env.REACT_APP_PROTOCOL_ACCOUNT_ID || 
 export const FUNGIBLE_TOKEN_ACCOUNT_ID = process.env.REACT_APP_FUNGIBLE_TOKEN_ACCOUNT_ID || 'ft.flux-dev';
 export const WRAPPED_NEAR_ACCOUNT_ID = process.env.REACT_APP_WRAPPED_NEAR_ACCOUNT_ID || 'wrap.near';
 export const BANANAS_NEAR_ACCOUNT_ID = process.env.REACT_APP_BANANAS_ACCOUNT_ID || 'berryclub.ek.near';
+export const AUTH_ACCOUNT_ID = process.env.REACT_APP_AUTH_ACCOUNT_ID || '';
+export const ENABLE_WHITELIST = process.env.REACT_APP_ENABLE_WHITELIST === 'true';
 export const MAX_GAS = new BN("200000000000000");
 export const STORAGE_DEFAULT = new BN("300800000000000000000000");
 export const STORAGE_BASE = new BN('30000000000000000000000');
@@ -17,6 +19,7 @@ export const DEFAULT_FEE = 2; // 2%
 export const DEFAULT_SLIPPAGE = 2; // 2%
 export const NODE_ENV = process.env.NODE_ENV;
 export const NETWORK: 'testnet' | 'mainnet' | 'custom' = process.env.REACT_APP_NETWORK as any || 'testnet';
+
 
 export const DEFAULT_LIMIT = 100;
 export const ANALYTICS_STORAGE_KEY = 'flux_selected_period';
