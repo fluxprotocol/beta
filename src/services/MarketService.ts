@@ -3,6 +3,7 @@ import FluxSdk from '@fluxprotocol/amm-sdk';
 import Big from 'big.js';
 import { format } from 'date-fns';
 import { DEFAULT_FEE } from '../config';
+import { Account } from '../models/Account';
 
 import { GraphMarketResponse, MarketCategory, MarketType, MarketViewModel, transformToMarketViewModel } from '../models/Market';
 import { TokenMetadata } from '../models/TokenMetadata';
@@ -192,7 +193,7 @@ export async function getMarkets(filters: MarketFilters): Promise<MarketViewMode
     }
 }
 
-export async function getMarketOutcomeTokens(marketId: string, collateralToken?: TokenViewModel): Promise<TokenViewModel[]> {
+export async function getMarketOutcomeTokens(marketId: string, collateralToken?: TokenViewModel, account?: Account): Promise<TokenViewModel[]> {
     try {
         const result = await graphqlClient.query({
             fetchPolicy: 'network-only',
@@ -219,7 +220,6 @@ export async function getMarketOutcomeTokens(marketId: string, collateralToken?:
         });
 
         const market: GraphMarketResponse = result.data.market;
-        const account = await getAccountInfo();
         const accountId = account?.accountId;
         let balances: UserBalance[] = [];
 

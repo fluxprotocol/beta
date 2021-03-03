@@ -20,6 +20,7 @@ interface Props {
     onTokenSwitch: (token: TokenViewModel) => void;
     placeholder?: string;
     disabledInput?: boolean;
+    newPrice?: number;
 }
 
 export default function TokenSelect({
@@ -27,6 +28,7 @@ export default function TokenSelect({
     tokens,
     value,
     onTokenSwitch,
+    newPrice,
     onValueChange = () => {},
     showPrice = true,
     className = '',
@@ -55,7 +57,15 @@ export default function TokenSelect({
                 {showPrice && (
                     <span className={priceClassName}>
                         <span className={s.priceSymbol}>{selectedToken.priceSymbol}</span>
-                        <span>{selectedToken.price.toFixed(3)}</span>
+                        <span className={s.priceChangeWrapper}>
+                            <span>{selectedToken.price.toFixed(3)}</span>
+                            {newPrice && (
+                                <>
+                                    <span>➔</span>
+                                    <span>{newPrice.toFixed(3)}</span>
+                                </>
+                            )}
+                        </span>
                     </span>
                 )}
                 {!showPrice && <span />}

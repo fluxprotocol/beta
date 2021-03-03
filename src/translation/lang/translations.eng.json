@@ -106,6 +106,8 @@
     "market.overview.escrowValid": "Claimable if market is valid",
     "market.overview.escrowInvalid": "Claimable if market is invalid",
     "market.overview.paidNow": "Paid Now",
+    "market.overview.estimateMoreAfterTrade": "You are saying that it will be more than :amount",
+    "market.overview.estimateLessAfterTrade": "You are saying that it will be less than :amount",
 
     "market.category.crypto": "Crypto",
     "market.category.esports": "Esports",
@@ -185,6 +187,7 @@
     "priceHistory.labels.all": "ALL",
 
     "swap.errors.notEnoughBalance": "Not Enough Balance",
+    "swap.errors.notEnoughLiquidity": "Not enough liquidity in the pool to make this trade happen.",
 
     "auth.login": "Login",
 

@@ -43,3 +43,14 @@
 .receiveInputs {
     margin-top: -1.5rem;
 }
+
+.newEstimateWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.newEstimateText {
+    margin-bottom: 0.5rem;
+}

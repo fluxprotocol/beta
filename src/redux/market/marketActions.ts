@@ -1,9 +1,10 @@
 import { MarketViewModel } from "../../models/Market";
 import { TokenViewModel } from "../../models/TokenViewModel";
-import { getAccountInfo, getPoolBalanceForMarketByAccount } from "../../services/AccountService";
+import { getPoolBalanceForMarketByAccount } from "../../services/AccountService";
 import { getCollateralTokenMetadata } from "../../services/CollateralTokenService";
-import { createMarket, getEscrowStatus, getMarketById, getMarketOutcomeTokens, getMarkets, getResolutingMarkets, getTokenWhiteListWithDefaultMetadata, MarketFilters, MarketFormValues } from "../../services/MarketService";
+import { createMarket, getEscrowStatus, getMarketById, getMarketOutcomeTokens, getMarkets, getTokenWhiteListWithDefaultMetadata, MarketFilters, MarketFormValues } from "../../services/MarketService";
 import { seedPool, exitPool, SeedPoolFormValues, seedScalarMarket, SeedScalarMarketFormValues } from "../../services/PoolService";
+import { Reducers } from "../reducers";
 import { setMarketEscrowStatus, appendResolutingMarkets, appendMarkets, setMarketErrors, setMarketLoading, setMarketDetail, setMarkets, setResolutingMarkets, setMarketEditLoading, setMarketPoolTokenBalance, setMarketDetailTokens, setTokenWhitelist, setPendingMarkets, appendPendingMarkets } from "./market";
 
 export function createNewMarket(values: MarketFormValues) {
@@ -22,8 +23,9 @@ export function createNewMarket(values: MarketFormValues) {
 }
 
 export function loadMarket(id: string) {
-    return async (dispatch: Function) => {
+    return async (dispatch: Function, getState: () => Reducers) => {
         try {
+            const store = getState();
             dispatch(setMarketLoading(true));
             dispatch(setMarketDetail(undefined));
             dispatch(setMarketPoolTokenBalance(undefined));
@@ -31,13 +33,12 @@ export function loadMarket(id: string) {
 
             const market = await getMarketById(id);
 
-
             if (!market) {
                 dispatch(setMarketErrors(['Could not find market']));
                 return;
             }
 
-            const account = await getAccountInfo();
+            const account = store.account.account;
 
             if (account) {
                 const escrowStatusRequest = getEscrowStatus(id, account.accountId);
@@ -61,8 +62,9 @@ export function loadMarket(id: string) {
 }
 
 export function reloadTokens(marketId: string, collateralToken: TokenViewModel) {
-    return async (dispatch: Function) => {
-        const tokens = await getMarketOutcomeTokens(marketId, collateralToken);
+    return async (dispatch: Function, getState: () => Reducers) => {
+        const store = getState();
+        const tokens = await getMarketOutcomeTokens(marketId, collateralToken, store.account.account ?? undefined);
         if (tokens.length === 0) return;
 
         dispatch(setMarketDetailTokens(tokens));

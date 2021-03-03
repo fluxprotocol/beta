@@ -13,12 +13,12 @@ interface Props {
 }
 
 export default function Overview({
-    data, 
+    data,
     header
 }: Props): ReactElement {
     return (
         <div className={s['overview__container']}>
-            <div className={s['overview-header']}>
+            <div className={s.header}>
                 <span>{ header }</span>
             </div>
             <div className={s['overview']}>

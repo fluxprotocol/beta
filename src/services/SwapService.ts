@@ -8,4 +8,5 @@ export interface SwapFormValues {
     formattedAmountIn: string;
     amountOut: string;
     formattedAmountOut: string;
+    newPrices: number[];
 }

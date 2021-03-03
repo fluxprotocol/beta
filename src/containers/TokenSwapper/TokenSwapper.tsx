@@ -12,7 +12,7 @@ import s from './TokenSwapper.module.scss';
 import createDefaultSwapFormValues from './utils/createDefaultSwapFormValues';
 import { SwapFormValues } from '../../services/SwapService';
 import mutateFormValues from './utils/formValuesMutation';
-import { MarketViewModel } from '../../models/Market';
+import { MarketType, MarketViewModel } from '../../models/Market';
 import { toCollateralToken } from '../../services/CollateralTokenService';
 import { BUY, SELL } from '../../config';
 
@@ -20,6 +20,10 @@ import swap from "./../../assets/images/icons/swap.svg";
 import { validateSwapFormValues } from './utils/validateSwapFormValues';
 import Error from '../../components/Error';
 import TextButton from '../../components/TextButton';
+import { getScalarLongShortTokens } from '../../services/MarketService';
+import { SwapType } from '../../services/PriceService';
+import FluxSdk from '@fluxprotocol/amm-sdk';
+import Big from 'big.js';
 
 interface TokenSwapperProps {
     inputs: TokenViewModel[];
@@ -27,10 +31,11 @@ interface TokenSwapperProps {
     onRequestSwitchPairs: () => void;
     onConfirm: (formData: SwapFormValues) => Promise<void>;
     className?: string;
-    market: MarketViewModel
+    market: MarketViewModel;
 }
 
 export default function TokenSwapper({
+    market,
     inputs,
     outputs,
     onConfirm,
@@ -38,7 +43,8 @@ export default function TokenSwapper({
     className = '',
 }: TokenSwapperProps): ReactElement {
     const [formValues, setFormValues] = useState(createDefaultSwapFormValues(inputs[0], outputs[0]));
-    const collateralToken = inputs.length == 1 ? inputs[0] : outputs[0];
+    const collateralToken = inputs.length === 1 ? inputs[0] : outputs[0];
+
     function handleSubmit(mutatedValues: SwapFormValues) {
         onConfirm(mutatedValues);
     }
@@ -89,8 +95,15 @@ export default function TokenSwapper({
     }
 
     const poolTokens = outputs.length > 1 ? outputs : inputs;
-    const mutation = mutateFormValues(formValues, poolTokens);
-    const errors = validateSwapFormValues(mutation);
+    const mutation = mutateFormValues(formValues, poolTokens, market);
+    const errors = validateSwapFormValues(mutation, market);
+    const scalarTokens = getScalarLongShortTokens(market.outcomeTokens);
+    const swapType = mutation.type as SwapType;
+    const newEstimate = FluxSdk.utils.calcScalarValue(
+        scalarTokens.lowerBound,
+        scalarTokens.upperBound,
+        new Big(mutation.newPrices[scalarTokens.longToken.outcomeId])
+    );
 
     return (
         <form className={classnames(s['token-swapper'], className)}>
@@ -107,6 +120,7 @@ export default function TokenSwapper({
                     tokens={inputs}
                     selectedToken={mutation.fromToken}
                     onValueChange={(v) => handleAmountInChange(v)}
+                    newPrice={mutation.fromToken.isCollateralToken ? undefined : mutation.newPrices[mutation.fromToken.outcomeId]}
                 />
             </div>
 
@@ -124,11 +138,23 @@ export default function TokenSwapper({
                     tokens={outputs}
                     selectedToken={mutation.toToken}
                     disabledInput
+                    newPrice={mutation.toToken.isCollateralToken ? undefined : mutation.newPrices[mutation.toToken.outcomeId]}
                 />
             </div>
 
-            <SwapOverview formValues={mutation}/>
+            {market.type === MarketType.Scalar && swapType === SwapType.Buy && (
+                <div className={s.newEstimateWrapper}>
+                    <span className={s.newEstimateText}>
+                        {scalarTokens.longToken.outcomeId === mutation.toToken.outcomeId ?
+                            trans('market.overview.estimateMoreAfterTrade') :
+                            trans('market.overview.estimateLessAfterTrade')
+                        }
+                    </span>
+                    <span>{newEstimate.toFixed(2)}</span>
+                </div>
+            )}
 
+            <SwapOverview formValues={mutation} market={market} />
             <Error error={errors.message} />
 
             <Button disabled={!errors.canSubmit} onClick={() => handleSubmit(mutation)} className={s['token-swapper__confirm']}>

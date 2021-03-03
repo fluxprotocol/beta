@@ -6,21 +6,28 @@ import Overview from "./../../../../components/Overview";
 import mutateFormValues from './utils/overviewMutation';
 import Big from 'big.js';
 import { formatCollateralToken } from '../../../../services/CollateralTokenService';
-import { toToken } from '@fluxprotocol/amm-sdk/dist/core/FluxSdkUtils';
+import { MarketType, MarketViewModel } from '../../../../models/Market';
+import { getPricesAfterTrade, SwapType } from '../../../../services/PriceService';
+import FluxSdk from '@fluxprotocol/amm-sdk';
+import { getScalarLongShortTokens } from '../../../../services/MarketService';
 
 interface SwapOverviewProps {
-    formValues: SwapFormValues
+    formValues: SwapFormValues,
+    market: MarketViewModel;
 }
 
-export default function SwapOverview({formValues}: SwapOverviewProps): ReactElement {
-    let formattedFormValues = mutateFormValues(formValues);
+export default function SwapOverview({
+    formValues,
+    market,
+}: SwapOverviewProps): ReactElement {
+    const formattedFormValues = mutateFormValues(formValues);
 
     const collateralToken = formValues.fromToken.isCollateralToken ? formValues.fromToken : formValues.toToken;
     const amountIn = new Big(formValues.amountIn);
     const amountOut = new Big(formValues.amountOut);
     const divisor = new Big("100");
     const profitPercentage = formValues.amountIn !== "0" ? amountOut.minus(amountIn).div(amountIn).mul(divisor).round(2).toString() : "0";
-    
+
     const overViewData = [
         {
             key: trans('market.overview.rate'),
@@ -40,11 +47,11 @@ export default function SwapOverview({formValues}: SwapOverviewProps): ReactElem
         },
     ]
 
-    if (formValues.type === "BUY") {
+    if (formValues.type === SwapType.Buy) {
         overViewData.push({
             key: trans('market.overview.maxPayout'),
             value: `${formValues.formattedAmountOut || "0"} ${formValues.fromToken.tokenSymbol} (+${profitPercentage}%)`
-        })
+        });
     } else if (amountIn.gt("0")) {
         const spent = new Big(formValues.fromToken.spent);
         const balance = new Big(formValues.fromToken.balance);
@@ -67,7 +74,7 @@ export default function SwapOverview({formValues}: SwapOverviewProps): ReactElem
                     value: `${formValues.formattedAmountOut} ${formValues.toToken.tokenSymbol}`
                 }
             );
- 
+
         } else if ((avgSellPrice.gt(avgPaidPrice))){
             // Escrow valid
             const escrowInvalid = spendAtAvgSellPrice.minus(spendAtAvgPaidPrice);
