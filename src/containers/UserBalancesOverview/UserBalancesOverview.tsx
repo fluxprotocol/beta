@@ -49,9 +49,10 @@ export default function UserBalancesOverview({
 
                             const price = new Big(info.spent).div(info.balance).round(2);
                             const profitPercentage = price.gt("0") ? new Big(info.outcomePrice).minus(price).div(price).mul(100).round(2) : new Big("0");
+                            
                             const profitLinkClassName = classnames(s.link, {
-                                [s.link__green]: price.gt("0"),
-                                [s.link__red]: price.lt("0")
+                                [s.link__green]: profitPercentage.gt("0"),
+                                [s.link__red]: profitPercentage.lt("0")
                             });
                             
                             return (
