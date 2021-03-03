@@ -24,7 +24,7 @@ export default function LineChart({
             return;
         }
 
-        chart.current = generateLineChart(canvas.current);
+        chart.current = generateLineChart(canvas.current, market);
     }, [canvas, isDarkmodeActive]);
 
     useEffect(() => {
