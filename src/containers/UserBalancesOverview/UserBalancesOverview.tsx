@@ -9,6 +9,7 @@ import { formatCollateralToken } from '../../services/CollateralTokenService';
 import { routePaths } from '../../routes';
 import s from './UserBalancesOverview.module.scss';
 import Big from 'big.js';
+import { DUST_AMOUNT } from '../../config';
 
 interface Props {
     balances: UserBalance[];
@@ -39,7 +40,7 @@ export default function UserBalancesOverview({
                     </thead>
                     <tbody>
                         {/** Filters out any pool tokens */}
-                        {balances.filter(balance => balance.outcomeTag).map((info) => {
+                        {balances.filter(balance => balance.outcomeTag && new Big(balance.balance).gt(DUST_AMOUNT)).map((info) => {
                             const href = {
                                 pathname: routePaths.marketDetail(info.marketId),
                                 state: {
@@ -47,7 +48,7 @@ export default function UserBalancesOverview({
                                 }
                             };
 
-                            const price = new Big(info.spent).div(info.balance).round(2);
+                            const price = new Big(info.spent).div(info.balance);
                             const profitPercentage = price.gt("0") ? new Big(info.outcomePrice).minus(price).div(price).mul(100).round(2) : new Big("0");
                             
                             const profitLinkClassName = classnames(s.link, {
@@ -74,7 +75,7 @@ export default function UserBalancesOverview({
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
-                                            {`${price.toString()} ${info.collateralTokenMetadata.symbol}`}
+                                            {`${price.round(2).toString()} ${info.collateralTokenMetadata.symbol}`}
                                         </Link>
                                     </td>
                                     <td>

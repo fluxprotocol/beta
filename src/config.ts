@@ -9,6 +9,7 @@ export const WRAPPED_NEAR_ACCOUNT_ID = process.env.REACT_APP_WRAPPED_NEAR_ACCOUN
 export const BANANAS_NEAR_ACCOUNT_ID = process.env.REACT_APP_BANANAS_ACCOUNT_ID || 'berryclub.ek.near';
 export const AUTH_ACCOUNT_ID = process.env.REACT_APP_AUTH_ACCOUNT_ID || '';
 export const ENABLE_WHITELIST = process.env.REACT_APP_ENABLE_WHITELIST === 'true';
+export const DUST_AMOUNT = 10000000000;
 export const MAX_GAS = new BN("200000000000000");
 export const STORAGE_DEFAULT = new BN("300800000000000000000000");
 export const STORAGE_BASE = new BN('30000000000000000000000');
