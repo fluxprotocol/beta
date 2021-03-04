@@ -14,7 +14,6 @@ export default function EscrowOwerviewConnector({
 }: Props) {
     const dispatch = useDispatch();
     const escrowStatus = useSelector((store: Reducers) => store.account.escrowStatus);
-    console.log(escrowStatus);
 
     useEffect(() => {
         dispatch(getEscrowStatus())

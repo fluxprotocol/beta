@@ -25,7 +25,7 @@ export default function HomeHeader({
                 <span className={s.subTitle}>{trans('home.title.latestTrends')}</span>
             </div>
 
-            {/* {account && <Button onClick={onCreateMarketClick}>{trans('global.actions.createMarket')}</Button>} */}
+            {process.env.REACT_APP_NETWORK !== "mainnet" && <Button onClick={onCreateMarketClick}>{trans('global.actions.createMarket')}</Button>}
         </div>
     );
 }

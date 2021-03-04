@@ -214,5 +214,7 @@
     "escrowStatus.title": "Validity Escrow",
     "escrowStatus.table.market": "market",
     "escrowStatus.table.amount": "amount",
-    "escrowStatus.table.payoutState": "if market is"
+    "escrowStatus.table.payoutState": "if market is",
+    "escrowStatus.table.valid": "valid",
+    "escrowStatus.table.invalid": "invalid"
 }

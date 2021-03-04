@@ -19,8 +19,6 @@ export default function EscrowStatusOverview({
     escrowStatus,
     className = '',
 }: Props) {
-
-    console.log(escrowStatus);
     return (
         <section className={classnames(s.root, className)}>
             <header className={s.header}>
@@ -61,7 +59,7 @@ export default function EscrowStatusOverview({
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
-                                            {info.type === "invalid_escrow" ? "Invalid" : "valid"}
+                                            {info.type === "invalid_escrow" ? trans('escrowStatus.table.invalid') : trans('escrowStatus.table.invalid')}
                                         </Link>
                                     </td>
                                 </tr>
