@@ -14,7 +14,7 @@ import './styles/global.module.scss';
 const store = configureStore({});
 ReactDOM.render(
     <Provider store={store}>
-        <HashRouter basename="/" hashType="hashbang">
+        <HashRouter basename="/beta" hashType="hashbang">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <StylesProvider injectFirst>
                     <App />
