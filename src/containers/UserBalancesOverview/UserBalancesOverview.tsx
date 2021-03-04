@@ -48,9 +48,10 @@ export default function UserBalancesOverview({
                                 }
                             };
 
-                            const price = new Big(info.spent).div(info.balance);
-                            const profitPercentage = price.gt("0") ? new Big(info.outcomePrice).minus(price).div(price).mul(100).round(2) : new Big("0");
-                            
+                            const avgPaidPrice = new Big(info.spent).div(info.balance);
+                            const currentPrice = info.payoutNumerator ? formatCollateralToken(info.payoutNumerator[info.outcomeId], info.collateralTokenMetadata.decimals) : info.outcomePrice;
+                            const profitPercentage = avgPaidPrice.gt("0") ? new Big(currentPrice).minus(avgPaidPrice).div(avgPaidPrice).mul(100).round(2) : new Big("0");
+
                             const profitLinkClassName = classnames(s.link, {
                                 [s.link__green]: profitPercentage.gt("0"),
                                 [s.link__red]: profitPercentage.lt("0")
@@ -75,7 +76,7 @@ export default function UserBalancesOverview({
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
-                                            {`${price.round(2).toString()} ${info.collateralTokenMetadata.symbol}`}
+                                            {`${avgPaidPrice.round(2).toString()} ${info.collateralTokenMetadata.symbol}`}
                                         </Link>
                                     </td>
                                     <td>

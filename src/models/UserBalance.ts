@@ -13,6 +13,7 @@ export interface UserBalance {
     collateralTokenMetadata: TokenMetadata;
     spent: string;
     outcomePrice: number;
+    payoutNumerator: string[] | null;
 }
 
 export interface GraphUserBalancesItem {
@@ -82,5 +83,6 @@ export function transformToUserBalance(graphData: GraphUserBalancesItem, collate
         outcomeTag,
         collateralTokenMetadata,
         outcomePrice: graphData.market?.pool.pool_balances?.find(pb => pb.outcome_id === graphData.outcome_id)?.price ?? 0,
+        payoutNumerator: graphData.market?.payout_numerator || null
     }
 }
