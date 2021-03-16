@@ -57,7 +57,7 @@ export default function EscrowStatusOverview({
                                     </td>
                                     <td>
                                         <Link to={href} className={s.link}>
-                                            {info.type === "invalid_escrow" ? trans('escrowStatus.table.invalid') : trans('escrowStatus.table.invalid')}
+                                            {info.type === "invalid_escrow" ? trans('escrowStatus.table.invalid') : trans('escrowStatus.table.valid')}
                                         </Link>
                                     </td>
                                 </tr>
