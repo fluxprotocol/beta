@@ -1,0 +1,142 @@
+{
+    "global.appName": "Flux",
+    "global.yes": "Sim",
+    "global.no": "Não",
+    "global.none": "Nenhum",
+    "global.token": "token",
+    "global.balance": "saldo",
+    "global.comments": "Comentários",
+    "global.poolToken": "Pool",
+
+    "global.action.cancel": "Cancelar",
+    "global.action.submit": "Enviar",
+    "global.actions.createMarket": "Criar mercado",
+
+    "pages.marketOverview": "Negociação",
+    "pages.resoluteOverview": "Resolvido",
+
+    "home.title.head": ":appName - Mercados",
+    "home.title.welcome": "Bem vindo :username",
+    "home.title.latestTrends": "Essas são as últimas novidades",
+
+    "marketStatus.uknown": "Desconhecido",
+    "marketStatus.finalized": "Finalizado",
+    "marketStatus.invalid": "Inválido",
+    "marketStatus.resoluting": "Resolvendo",
+    "marketStatus.ongoing": "Em andamento",
+
+    "market.title.head": ":appName - :description",
+    "market.extraInfo": "Informação extra",
+    "market.resolutionDate": "Data da resolução",
+    "market.action.confirmSwap": "Confirmar troca",
+    "market.action.confirmLiquidity": "Adicionar liquidez",
+    "market.action.switchTokens": "Trocar tokens",
+    "market.action.changeTradingPair": "Alterar par de troca",
+    "market.action.claimEarnings": "Reivindicar",
+
+    "market.label.resolutionInfo": "Informações da resolução",
+    "market.label.totalVolume": "Volume total",
+    "market.label.opinion": "O que o mercado está pensando?",
+    "market.label.youPay": "Você paga",
+    "market.label.youReceive": "Você recebe",
+    "market.label.overview": "Visão geral",
+    "market.label.swap": "Troca",
+    "market.label.liquidity": "Liquidez",
+    "market.label.claimEarnings": "Reivindicar",
+    "market.label.seedPool": "Pool de sementes",
+    "market.label.marketClosed": "Mercado fechado",
+    "market.label.exitPool": "Pool de saída",
+    "market.label.notLoggedIn": "Você não está logado",
+
+    "market.claimEarnings.validMarket": "Este mercado foi resolvido e marcado como válido. Você pode reivindicar os seus ganhos abaixo",
+    "market.claimEarnings.invalidMarket": "Este mercado foi marcado como inválido, você pode reivindicar os seus tokens de volta.",
+    "market.claimEarnings.label.outcome": "Resultado",
+    "market.claimEarnings.label.balance": "Saldo",
+    "market.claimEarnings.label.payout": "Pagamento",
+
+    "market.overview.rate": "Taxa",
+    "market.overview.inverseRate": "Taxa inversa",
+    "market.overview.estimatedFee": "Comissão estimada",
+    "market.overview.maxSlippage": "Slippage máx.",
+
+    "market.category.crypto": "Crypto",
+    "market.category.esports": "Esports",
+    "market.category.meme": "Memes",
+    "market.category.politics": "Política",
+    "market.category.sports": "Esportes",
+    "market.category.startups": "Startups",
+    "market.category.stocks": "Ações",
+    "market.category.viral": "Viral",
+    "market.category.beer": "Cerveja",
+
+    "notLoggedIn.title": "Bem vindo ao Flux!",
+    "notLoggedIn.description": "Para negociar nos mercados você deve estar logado.",
+    "notLoggedIn.action.login": "Login",
+
+    "marketCreation.label.extraInfo": "Forneça mais informações para resolver o mercado",
+    "marketCreation.label.categorySelect": "Selecione uma ou mais categorias",
+    "marketCreation.label.description": "Provide description of the market",
+    "marketCreation.label.marketType": "Escolha um tipo de mercado",
+    "marketCreation.label.binary": "Binário",
+    "marketCreation.label.categorical": "Categórico",
+    "marketCreation.label.resolutionDate": "Quando esse mercado acaba?",
+    "marketCreation.label.outcomes": "Resultados",
+    "marketCreation.label.outcome": "Resultado :number",
+    "marketCreation.label.addMoreOutcomes": "Adicionar mais resultados",
+
+    "marketClosed.description": "Este mercado acabou e está em resolução, volte após para reivindicar os seus ganhos.",
+
+    "marketResolution.title.head": ":appName - Resolver",
+
+    "liquidityProvider.description": "Provedores de liquidez ganham uma comissão de :percentage% em todas negociações proporcional a sua participação no pool. Comissões são adicionadas ao pool, acumuladas em tempo real e podem ser reivindicadas removendo a sua participação.",
+
+    "orderHistory.title": "Histórico de ordens",
+    "orderHistory.table.share": "Ação",
+    "orderHistory.table.pricePerShare": "Preço por ação",
+    "orderHistory.table.orderValue": "Valor da ordem",
+
+    "feesEarned.title": "Comissão ganha",
+    "feesEarned.table.market": "Mercado",
+    "feesEarned.table.balance": "Saldo no pool de token",
+    "feesEarned.table.feesEarned": "Comissão ganha",
+
+    "seedPool.wrongUser.title": "Somente o criador do mercado pode semear o pool",
+    "seedPool.wrongUser.description": "Por favor volte mais tarde. Se você é o criador, por favor faça login como :account para semear o pool.",
+    "seedPool.explanation": "Semeie o pool com NEAR, selecione o peso de cada resultado. Juntos devem somar 100%",
+    "seedPool.not100Percent": "O peso de todos resultados combinados é :percentage mas deve ser igual a 100",
+    "seedPool.inputZero": "Resultados não podem ter um peso de zero ou menos",
+    "seedPool.input100": "Resultados não podem ter um peso de 100 ou mais",
+    "seedPool.action.submit": "Pool de sementes",
+    "seedPool.action.finalize": "Pool de publicação",
+    "seedPool.action.reSeed": "Pool de ressemeadura",
+    "seedPool.weightsTitle": "Peso dos resultados",
+    "seedPool.label.mainTokenBalance": "saldo NEAR",
+    "seedPool.errors.notEnoughBalance": "Saldo insuficiente",
+
+    "liquidityProvider.errors.notEnoughBalance": "Saldo insuficiente",
+
+    "priceHistory.labels.1d": "1D",
+    "priceHistory.labels.1w": "1S",
+    "priceHistory.labels.3w": "3S",
+    "priceHistory.labels.1m": "1M",
+    "priceHistory.labels.all": "TUDO",
+
+    "swap.errors.notEnoughBalance": "Saldo insuficiente",
+
+    "auth.login": "Login",
+
+    "navigation.back": "Voltar",
+
+    "exitPool.description": "Remover o pool de tokens converte a sua posição de volta aos tokens originais na cotação atual, proporcional a sua participação no pool. Comissões acumuladas são incluídas na parcela que você recebe.",
+    "exitPool.label.youInsert": "Você insere",
+    "exitPool.action.exitPool": "Pool de saída",
+    "exitPool.label.feesEarned": "Comissão ganha: :amount",
+    "exitPool.validation.amountIn.tooHigh": "Quantidade não pode exceder o saldo",
+    "exitPool.validation.amountIn.negative": "Quantidade não pode ser zero ou menos",
+
+    "userbalances.title": "Saldos",
+    "userbalances.table.market": "Mercado",
+    "userbalances.table.outcome": "Resultado",
+    "userbalances.table.balance": "Saldo",
+    "userbalances.table.status": "Status"
+}
